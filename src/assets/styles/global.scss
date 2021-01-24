@@ -1,0 +1,115 @@
+@import "../fonts/fonts";
+button:focus {outline:0;}
+//var
+$normal_font:"shabnam-medium";
+$header_size:68px;
+$body_size:calc(#{$header_size} + 16px);
+// Extra small devices (portrait phone.s, less than 576px)
+@mixin xs(){
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+@mixin sm(){
+  // Small devices (landscape phones, 576px and up)
+  @media (min-width: 576px) and (max-width: 767px) {
+    @content;
+  }
+}
+@mixin sm_down(){
+  // Small devices (landscape phones, 576px and up)
+  @media (max-width: 767px) {
+    @content;
+  }
+}
+@mixin md(){
+  // Medium devices (tablets, 768px and up)
+  @media (min-width: 768px) and (max-width: 991px) {
+    @content;
+  }
+}
+@mixin md_down(){
+  // Medium devices (tablets, 768px and up)
+  @media (max-width: 991px) {
+    @content;
+  }
+}
+@mixin md_above(){
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+@mixin lg(){
+  // Large devices (desktops, 992px and up)
+  @media (min-width: 992px) and (max-width: 1199px) {
+    @content;
+  }
+}
+@mixin xl(){
+  // Extra large devices (large desktops, 1200px and up)
+  @media (min-width: 1200px) {
+    @content;
+  }
+}
+//overload style ant
+body *{
+  font-family: $normal_font;
+}
+body{
+  padding: 8px;
+  background: url("../images/background.jpg") no-repeat;
+  background-size: cover;
+  .layout{
+    border-radius: 8px;
+    background-color: rgba(237,237,237,0.6);
+  }
+  .header{
+    height: $header_size;
+    background-color: transparent;
+    padding: 4px 16px;
+  }
+  .body{
+    padding:0 6px 8px;
+    height: calc(100vh - #{$body_size});
+    background-color: transparent;
+    .content{
+      background-color: white;
+      border-radius: 6px;
+    }
+  }
+
+}
+//general
+.xs_hidden{
+  @include xs(){
+    visibility: hidden;
+  }
+}
+.sm_hidden{
+  @include sm(){
+    visibility: hidden;
+  }
+}
+.md_hidden{
+  @include md(){
+    visibility: hidden;
+  }
+}
+.lg_hidden{
+  @include lg(){
+    visibility: hidden;
+  }
+}
+.xl_hidden{
+  @include xl(){
+    visibility: hidden;
+  }
+}
+//overide
+.ant-layout{
+  background-color: transparent;
+}
+.ant-layout-sider{
+  background-color: transparent;
+}
+
