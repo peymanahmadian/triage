@@ -22,10 +22,10 @@ const Navbar=()=>{
         <div className={"menubar"}>
             <Dropdown overlay={menu} trigger={['click']}>
                 <div className="ant-dropdown-link">
-                    <img src={setting} height={32} alt={"setting"}/>
+                    <img className={"hover"} src={setting} height={32} alt={"setting"}/>
                 </div>
             </Dropdown>
-            <div><img src={information} height={32} alt={"information"}/></div>
+            <div><img className={"hover"} src={information} height={32} alt={"information"}/></div>
             <Button> <img src={emergency} height={24}/><span>اورژانس</span> </Button>
             <Button color={"red"}> انصراف </Button>
 
