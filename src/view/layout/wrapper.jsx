@@ -1,4 +1,11 @@
+import {Row,Col} from "antd";
+import {FilterBox} from "../../components";
 const Wrapper=()=>{
-    return <div>این یک مثال است</div>
+    return <>
+        <Row>
+            <Col xs={24}><FilterBox/></Col>
+
+        </Row>
+    </>
 }
 export default Wrapper;
