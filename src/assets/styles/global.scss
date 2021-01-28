@@ -4,6 +4,8 @@ button:focus {outline:0;}
 $normal_font:"shabnam-medium";
 $header_size:68px;
 $body_size:calc(#{$header_size} + 16px);
+//color
+$red:#a41a1a;
 // Extra small devices (portrait phone.s, less than 576px)
 @mixin xs(){
   @media (max-width: 575px) {

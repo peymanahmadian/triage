@@ -6,11 +6,18 @@
     background-color: #a41a1a;
     color:white;
   }
+  &.red_text{
+    color:#a41a1a;
+  }
+  &.block{
+    width: 100%;
+  }
+  cursor: pointer;
   border-radius: 6px;
   box-sizing: content-box;
   padding: 0;
   border: 0;
-  height: 42px;
+  height: 36px;
   width: 120px;
   display:flex;
   align-content:center;
@@ -18,8 +25,10 @@
   justify-content:center;
   transition: all 0.2s ease-in;
   box-shadow: 0 0 0 gray;
+
   &:hover{
-    opacity: 0.9;
+    opacity: 0.8;
+    transform: scale(0.98);
   }
   &:active{
     box-shadow: 0 0 20px gray;

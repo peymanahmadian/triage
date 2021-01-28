@@ -19,6 +19,7 @@ import "../assets/styles/global.scss";
 import Wrapper from "./layout/wrapper";
 import ErrorBoundary from "./error/errorBoundary";
 import Navbar from "./layout/navbar";
+import Sidebar from "./layout/sidebar";
 const bindSaga=(sagaMiddleware)=>{
     Object.values(sagas).forEach(sagaMiddleware.run.bind(sagaMiddleware));
 }
@@ -36,7 +37,9 @@ const App=()=> {
                         <Navbar/>
                     </Header>
                     <Layout className={"body"}>
-                            <Sider className={"side"}>Sider</Sider>
+                            <Sider className={"side"}>
+                                <Sidebar/>
+                            </Sider>
                             <Content className={"content"}>
                                 <Wrapper/>
                             </Content>
