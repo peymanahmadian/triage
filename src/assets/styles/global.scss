@@ -114,4 +114,16 @@ body{
 .ant-layout-sider{
   background-color: transparent;
 }
-
+//general
+.full{
+  width: 100%;
+}
+.datepicker{
+  border:1px solid #e3dada;
+  height: 40px;
+  padding: 10px;
+  &::placeholder{
+    color:#c3c7d3;
+    font-size: 16px;
+  }
+}
