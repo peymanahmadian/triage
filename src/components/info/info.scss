@@ -1,0 +1,15 @@
+.info{
+  font-size: 12px;
+  display: flex;
+  border:1px solid gray;
+  border-radius: 4px;
+  padding: 6px;
+  flex-direction: row-reverse;
+  justify-content:space-between;
+  img{
+    padding-left: 6px;
+  }
+  span{
+    color:gray;
+  }
+}
