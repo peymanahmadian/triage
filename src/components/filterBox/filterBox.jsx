@@ -1,5 +1,5 @@
-import {Row, Col,Select, Input, Checkbox,Button,DatePicker} from "antd";
-import locale from 'antd/lib/locale/fa_IR';
+import {Row, Col,Select, Input, Checkbox,Button} from "antd";
+import DatePicker from "react-datepicker2";
 import {SearchOutlined } from "@ant-design/icons";
 import "./filterBox.scss";
 const FilterBox=()=>{
@@ -18,7 +18,7 @@ const FilterBox=()=>{
             <Row gutter={[4,4]}>
                 {/*<Col xs={12} md={6}><Input size={"large"} placeholder={"تاریخ"}/></Col>*/}
                 <Col xs={12} md={6}>
-                    <DatePicker className={"full"} size={"large"} locale={locale} />
+                    <DatePicker timePicker={false}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"تاریخ"} isGregorian={false}/>
                 </Col>
                 <Col xs={12} md={6}>
                     <Select size={"large"} className={"full"} placeholder={"مکان ارجاع"}>
