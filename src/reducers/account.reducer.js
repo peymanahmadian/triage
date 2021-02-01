@@ -1,5 +1,5 @@
 import {accountActionType} from "../models/actionTypes";
-const Account=(state=null,action)=>{
+const AccountReducer=(state=null, action)=>{
     switch (action.type) {
         default:
             return{
@@ -7,4 +7,4 @@ const Account=(state=null,action)=>{
             }
     }
 }
-export default Account;
+export default AccountReducer;

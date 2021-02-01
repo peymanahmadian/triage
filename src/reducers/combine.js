@@ -1,7 +1,7 @@
 //import lib
 import {combineReducers} from "redux";
 //import reducer
-import Account from "./account";
+import AccountReducer from "./account.reducer";
 export default combineReducers({
-    Account
+    Account: AccountReducer
 });
