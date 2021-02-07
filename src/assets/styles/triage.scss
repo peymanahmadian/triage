@@ -3,4 +3,42 @@
     height: 100vh;
     padding-top: 6px;
   }
+  .content{
+    padding: 8px;
+  }
+  fieldset{
+    border:1px solid gray;
+    legend{
+      min-width: 95px;
+      display: flex;
+      font-size: 14px;
+      width: auto;
+      padding-left: 10px;
+      padding-right: 0px;
+      &.red{
+        color:darkred;
+      }
+      &.yellow{
+        color:orangered;
+      }
+      &.gray{
+        color:dimgray;
+      }
+      &.green{
+        color:#065817;
+      }
+      span.anticon{
+        padding-top: 4px;
+        padding-left: 4px;
+        padding-right: 2px;
+      }
+      span{
+        display: block;
+      }
+    }
+
+  }
+}
+.sidebar.triage{
+  padding-top: 45px;
 }

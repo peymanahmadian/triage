@@ -4,7 +4,10 @@ import "../../assets/styles/sidebar.scss";
 import covid from "../../assets/images/icons/covid.svg";
 import patient from "../../assets/images/icons/patient.svg"
 import report from "../../assets/images/icons/report.svg";
+import {visualActionType} from "../../models/actionTypes";
+import {useDispatch} from "react-redux";
 const Sidebar=()=>{
+    const dispatch=useDispatch();
     return(<aside className={"sidebar"}>
         <div className={"icon"}>
             <img src={account} alt={"حساب کاربری"} height={"75"}/>
@@ -17,7 +20,7 @@ const Sidebar=()=>{
         <div className={"operation"}>
             <div className={"titleLine"}><div>نوع تریاژ</div><div><hr/></div><div><img alt={"repo"} src={report} height={16} /></div></div>
             <Button block className={"marginBottom"}>تریاژ سطح 4 و 5 </Button>
-            <Button block > تریاژ عمومی و سطح حیاتی </Button>
+            <Button block onClick={()=>{dispatch({type:visualActionType.openWindow,param:true});dispatch({type:visualActionType.changeBlur,param:true})}}> تریاژ عمومی و سطح حیاتی </Button>
         </div>
         <div className={"report"}>
             <div className={"titleLine"}><div>گزارشات</div><div><hr/></div><div><img alt={"repo"} src={report} height={16} /></div></div>

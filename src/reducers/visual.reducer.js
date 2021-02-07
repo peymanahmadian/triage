@@ -1,10 +1,16 @@
 import {visualActionType} from "../models/actionTypes";
-const AccountReducer=(state={blue:false}, action)=>{
+const VisualReducer=(state={blur:false,open:false}, action)=>{
     switch (action.type) {
         case visualActionType.changeBlur:
             return {
-                blur:action.state,
-                ...state
+                ...state,
+                blur:action.param,
+
+            }
+        case visualActionType.openWindow:
+            return{
+                ...state,
+                open:action.param
             }
         default:
             return{
@@ -12,4 +18,4 @@ const AccountReducer=(state={blue:false}, action)=>{
             }
     }
 }
-export default AccountReducer;
+export default VisualReducer;

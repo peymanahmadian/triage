@@ -1,2 +1,3 @@
 import {visualActionType} from "../models/actionTypes";
-export const changeBlur=(state)=>({type:visualActionType.changeBlur,state})
+export const changeBlur=(param)=>({type:visualActionType.changeBlur,param});
+export const openWindow=(param)=>({type:visualActionType.openWindow,param});
