@@ -7,6 +7,7 @@ $header_size:68px;
 $body_size:calc(#{$header_size} + 16px);
 //color
 $red:#a41a1a;
+$gray:#959595;
 // Extra small devices (portrait phone.s, less than 576px)
 @mixin xs(){
   @media (max-width: 575px) {
@@ -143,6 +144,12 @@ body{
     top:0;
   }
 }
+.paddingBottom{
+  padding-bottom: 8px;
+}
 .blur{
   filter: blur(20px) !important;
+}
+.grayText{
+  color:$gray;
 }
