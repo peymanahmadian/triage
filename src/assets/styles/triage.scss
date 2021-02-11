@@ -1,3 +1,4 @@
+@import "global";
 .triage{
   .body{
     height: 100vh;
@@ -8,6 +9,7 @@
   }
   fieldset{
     border:1px solid gray;
+    padding: 4px 8px;
     legend{
       min-width: 95px;
       display: flex;
@@ -41,4 +43,41 @@
 }
 .sidebar.triage{
   padding-top: 45px;
+}
+.grayTitle{
+  display: flex;
+  background-color: #e5e5e5;
+  border-radius: 4px;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  .grayHead{
+    min-width: 150px;
+    padding: 6px 10px;
+  }
+  .grayContent{
+    padding-top: 8px;
+  }
+}
+.container{
+  padding: 10px 4px;
+}
+.toolbar{
+  display: flex;
+  width: 100%;
+  align-content: stretch;
+  .bar{
+    flex-grow: 5;
+  }
+  .label{
+    flex-grow: 0;
+    padding: 4px 10px;
+
+  }
+}
+.flexInput{
+  display: flex;
+  .ant-input-affix-wrapper.ant-input-affix-wrapper-rtl{
+    border-radius: 4px;
+    margin-left: 2px;
+  }
 }
