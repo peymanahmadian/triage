@@ -6,17 +6,26 @@
   }
   .content{
     padding: 8px;
+    .headerTriage{
+      .showText{
+        padding:6px 8px;
+        background-color: $gray_light;
+        border-radius: 4px;
+      }
+    }
   }
   fieldset{
     border:1px solid gray;
     padding: 4px 8px;
+    margin-top: 15px;
     legend{
       min-width: 95px;
       display: flex;
       font-size: 14px;
       width: auto;
-      padding-left: 10px;
-      padding-right: 0px;
+      padding-left: 6px;
+      padding-right: 0;
+      justify-content:space-between;
       &.red{
         color:darkred;
       }
@@ -36,6 +45,9 @@
       }
       span{
         display: block;
+      }
+      div{
+        line-height: 32px;
       }
     }
 
@@ -80,4 +92,10 @@
     border-radius: 4px;
     margin-left: 2px;
   }
+}
+.paddingTop{
+  padding-top:14px !important;
+}
+.marginTop{
+  margin-top: 6px !important;
 }
