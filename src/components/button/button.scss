@@ -10,6 +10,10 @@
     background-color: #065817;
     color:white;
   }
+  &.blue{
+    background-color: #31a4d3;
+    color:white;
+  }
   &.red_text{
     color:#a41a1a;
   }
@@ -17,7 +21,7 @@
     width: 100%;
   }
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 4px;
   box-sizing: content-box;
   padding: 0;
   border: 0;
