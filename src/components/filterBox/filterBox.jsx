@@ -4,7 +4,7 @@ import {SearchOutlined } from "@ant-design/icons";
 import "./filterBox.scss";
 const FilterBox=()=>{
     return(<Row className={"filterBox"}>
-        <Col xs={24} md={20} lg={22}>
+        <Col xs={24} md={24} lg={24}>
             <Row gutter={[4,4]}>
                 <Col xs={12} md={6}><Input size={"large"} placeholder={"نام بیمار"}/></Col>
                 <Col xs={12} md={6}><Input size={"large"} placeholder={"نام خانوادگی بیمار"}/></Col>
@@ -25,13 +25,11 @@ const FilterBox=()=>{
                         <Select.Option>مثال</Select.Option>
                     </Select>
                 </Col>
-                <Col xs={12} md={6} className={"paddingTop"}><Checkbox>نمایش همه بیماران</Checkbox></Col>
-                <Col xs={12} md={6} className={"paddingTop"}><Checkbox>پذیرش شده</Checkbox></Col>
-            </Row>
-        </Col>
-        <Col xs={24} md={4} lg={2} className={"buttonSearch"}>
-            <Button type="primary" icon={<SearchOutlined />} size={"large"} />
+                <Col xs={12} md={4} className={"paddingTop"}><Checkbox>پذیرش شده</Checkbox></Col>
+                <Col xs={12} md={4} ><Button  block size={"large"} >نمایش همه بیماران</Button></Col>
+                <Col xs={12} md={4} ><Button type="primary" block size={"large"} >جستجوی بیماران</Button></Col>
 
+            </Row>
         </Col>
     </Row>)
 }

@@ -7,14 +7,8 @@ import setting from "./../../assets/images/icons/settings.svg";
 import information from "../../assets/images/icons/information.svg";
 const menu=(
     <Menu>
-        <Menu.Item key="0">
-            <a href="http://www.alipay.com/">1st menu item</a>
-        </Menu.Item>
-        <Menu.Item key="1">
-            <a href="http://www.taobao.com/">2nd menu item</a>
-        </Menu.Item>
         <Menu.Divider />
-        <Menu.Item key="3">3rd menu item</Menu.Item>
+        <Menu.Item key="3">خروج از برنامه</Menu.Item>
     </Menu>
 );
 const Navbar=()=>{
@@ -26,8 +20,9 @@ const Navbar=()=>{
                 </div>
             </Dropdown>
             <div><img className={"hover"} src={information} height={32} alt={"information"}/></div>
-            <Button> <img src={emergency} height={24}/><span>اورژانس</span> </Button>
-            <Button color={"red"}> انصراف </Button>
+            <Button color={"red"} onClick={()=>{}}> خروج </Button>
+            <Button> <img src={emergency} height={24} alt={"اورژانس"}/><span>اورژانس</span> </Button>
+            <Button> انصراف </Button>
 
         </div>
     )

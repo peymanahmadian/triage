@@ -6,10 +6,10 @@ import account from "./../../assets/images/icons/AccountInfo.svg";
 import general from "./../../assets/images/icons/general.svg";
 import complain from "./../../assets/images/icons/complain.svg";
 import drug from "./../../assets/images/icons/drug.svg";
-
 import {LeftOutlined,HeartOutlined,ColumnWidthOutlined} from "@ant-design/icons";
 import {Button,Combo} from "../../components";
 const Triage=(props)=>{
+
     return(<Layout className={"layout triage"}>
         <Layout className={"body"}>
             <Layout.Sider className={"side"}>

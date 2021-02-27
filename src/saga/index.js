@@ -1,1 +1,2 @@
-export {authentication} from "./account";
+export {authentication,getInformation} from "./account";
+export {getPatients} from "./patients";

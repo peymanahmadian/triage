@@ -1,6 +1,17 @@
 import {visualActionType} from "../models/actionTypes";
-const VisualReducer=(state={blur:false,open:false}, action)=>{
+let model={
+    blur:false,
+    open:false,
+    loading: false,
+    message:{show:false,content:null}
+}
+const VisualReducer=(state=model, action)=>{
     switch (action.type) {
+        case visualActionType.changeLoading:
+            return{
+                ...state,
+                loading:action.param
+            }
         case visualActionType.changeBlur:
             return {
                 ...state,
@@ -11,6 +22,11 @@ const VisualReducer=(state={blur:false,open:false}, action)=>{
             return{
                 ...state,
                 open:action.param
+            }
+        case visualActionType.changeMessage:
+            return{
+                ...state,
+                message: action.param
             }
         default:
             return{
