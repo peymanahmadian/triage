@@ -1,1 +1,1 @@
-export {authentication} from "./account";
+export {authentication,getInformation,singOutInformation} from "./account";

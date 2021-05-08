@@ -5,17 +5,18 @@ import covid from "../../assets/images/icons/covid.svg";
 import patient from "../../assets/images/icons/patient.svg"
 import report from "../../assets/images/icons/report.svg";
 import {visualActionType} from "../../models/actionTypes";
-import {useDispatch} from "react-redux";
+import {useDispatch,useSelector} from "react-redux";
 const Sidebar=()=>{
     const dispatch=useDispatch();
+    const {information} =useSelector(state=>state.Account);
     return(<aside className={"sidebar"}>
         <div className={"icon"}>
             <img src={account} alt={"حساب کاربری"} height={"75"}/>
         </div>
         <div className={"username"}>
-            <strong>پیمان احمدیان</strong>
-            <div className={"showText"}><div>1399/08/08 - 22:55</div><div>ورود</div></div>
-            <div className={"showText"}><div>1399/08/08 - 23:55</div><div>خروج</div></div>
+            <strong>{information && information.FullName}</strong>
+            <div className={"showText"}><div>{information && information.LastLoginSuccess}</div><div>ورود</div></div>
+            <div className={"showText"}><div>{information && information.LastLoginFail}</div><div>ناموفق</div></div>
         </div>
         <div className={"operation"}>
             <div className={"titleLine"}><div>نوع تریاژ</div><div><hr/></div><div><img alt={"repo"} src={report} height={16} /></div></div>

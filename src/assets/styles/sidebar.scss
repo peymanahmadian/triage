@@ -51,15 +51,15 @@
     div:first-child{
       background-color: white;
       border-radius: 4px;
-      width: 75%;
+      width: 60%;
       direction: ltr;
-      padding: 4px 6px;
+      padding: 4px 4px;
       box-sizing: content-box;
       font-size: 12px;
       text-align: center;
     }
     div:last-child{
-      width: 25%;
+      width: 40%;
       box-sizing: content-box;
     }
   }

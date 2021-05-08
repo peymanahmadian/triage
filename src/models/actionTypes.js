@@ -1,7 +1,15 @@
 export const accountActionType={
-    Authentication:"Authentication"
+    authentication:"Authentication",
+    setInformation:"SetInformation",
+    getInformation:"GetInformation",
+    singOutUser:"singOutUser",
+    valid:"valid"
+
 }
 export const visualActionType={
     changeBlur:"changeBlur",
-    openWindow:"openWindow"
+    openWindow:"openWindow",
+    changeLoading:"changeLoading",
+    changeMessage:"changeMessage"
 }
+
