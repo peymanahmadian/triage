@@ -4,6 +4,8 @@ import {ConfigProvider} from "antd";
 import {createStore,applyMiddleware} from "redux";
 import {Provider} from "react-redux";
 import {composeWithDevTools} from 'redux-devtools-extension';
+//import IR loc
+import faIR from "antd/lib/locale/fa_IR";
 //import saga
 import * as sagas from "./saga";
 //reducers
@@ -21,7 +23,7 @@ const store=createStore(combine,composeWithDevTools(applyMiddleware(sageMiddlewa
 bindSaga(sageMiddleware);
 ReactDOM.render(
   <React.StrictMode>
-    <ConfigProvider direction={"rtl"}>
+    <ConfigProvider direction={"rtl"} locale={faIR}>
         <Provider store={store}>
             <App />
         </Provider>
