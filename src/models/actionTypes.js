@@ -12,4 +12,8 @@ export const visualActionType={
     changeLoading:"changeLoading",
     changeMessage:"changeMessage"
 }
-
+export const TriageActionType={
+    init:"init",
+    setInit:"setInit",
+    fillTriage:"fillTriage"
+}

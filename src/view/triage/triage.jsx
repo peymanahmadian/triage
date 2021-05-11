@@ -1,3 +1,5 @@
+import {useEffect} from "react";
+import {useDispatch,useSelector} from "react-redux";
 import {Layout, Row, Col, Radio, Checkbox, Slider, Input, Select,Upload} from "antd";
 import {UploadOutlined} from "@ant-design/icons";
 import "../../assets/styles/triage.scss";
@@ -8,8 +10,31 @@ import complain from "./../../assets/images/icons/complain.svg";
 import drug from "./../../assets/images/icons/drug.svg";
 import {LeftOutlined,HeartOutlined,ColumnWidthOutlined} from "@ant-design/icons";
 import {Button,Combo} from "../../components";
-const Triage=(props)=>{
+//action
+import {init,fillTriage} from "../../actions/triage.action";
 
+const Triage=(props)=>{
+    const dispatch=useDispatch();
+    const {information}=useSelector(state=>state.Account);
+    useEffect(()=>{
+        debugger;
+        if(information){
+            dispatch(init({
+                "IsInitialize": false,
+                "BranchId": information.BranchId,
+                "UserId": information.UserId, 
+                "EncounterId": 0, 
+                "TriageId": 0, 
+                "LocationIdSubmit": null, 
+                "LocationIdDone": null, 
+                "TriageDto": null, 
+                "FieldExaminationEncounterHeaderId": null, 
+                "MachineName": "", 
+                "IsNotCompress": true
+              }));
+            dispatch(fillTriage());
+        }
+    },[information]);
     return(<Layout className={"layout triage"}>
         <Layout className={"body"}>
             <Layout.Sider className={"side"}>
