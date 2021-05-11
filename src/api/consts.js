@@ -14,5 +14,5 @@ export const header=(hasToken)=>{
 
 };
 export const urls={
-  getPatients:"http://46.209.148.202:8087/TriageSystem/api/Procedure/sp_Triage_WinTriageList"
+
 };
