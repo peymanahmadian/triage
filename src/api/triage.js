@@ -11,13 +11,28 @@ const triage={
         }
     },
     fillTriage:async()=>{
-        debugger;
         try{
             return await axios.post(URL.getTriageDictionarySearchAll,{},{headers:header(true)})
         }catch(e){
             return e;
         }
+    },
+    searchDrug:async(params)=>{
+        try{
+            return await axios.post(URL.getExaminationItemSearch,{"ItemId":null,"ItemName":params,"MasterServiceGroupIdList":[1,2],"IsNotCompress":true},{headers:header(true)})
+        }catch (e){
+            return e;
+        }
+    },
+    postTriage:async(params)=>{
+        try{
+            return await axios.post(URL.saveTriage,{...params,"IsNotCompress":true},{headers:header(true)})
+        }catch(e){
+            return e;
+        }
+        
     }
 
 }
+
 export default triage;

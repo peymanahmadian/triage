@@ -4,7 +4,6 @@ import ref from "./../../assets/images/icons/ref.svg";
 import date from "./../../assets/images/icons/date.svg";
 import nurse from "./../../assets/images/icons/nurse.svg";
 const Expand=(props)=>{
-    debugger;
     return(
         <>
             <Row gutter={[4,4]}>

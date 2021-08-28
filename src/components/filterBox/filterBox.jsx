@@ -57,7 +57,7 @@ const FilterBox=(props)=>{
             </Row>
             <Row gutter={[4,4]}>
                 <Col xs={12} md={6}>
-                    <DatePicker timePicker={true}  onChange={e=>{debugger;let value=moment(e).format("YYYY-MM-DDTHH:mm:SS");setFromDate(value)}}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"از تاریخ"} isGregorian={false}/>
+                    <DatePicker timePicker={true}  onChange={e=>{let value=moment(e).format("YYYY-MM-DDTHH:mm:SS");setFromDate(value)}}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"از تاریخ"} isGregorian={false}/>
                 </Col>
                 <Col xs={12} md={6}>
                     <DatePicker timePicker={true}  onChange={e=>{setToDate(moment(e).format("YYYY-MM-DDTHH:mm:SS"))}}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"تا تاریخ"} isGregorian={false}/>

@@ -4,6 +4,8 @@ export const URL={
     getUser:`${base}/TriageSystem/api/User/GetUser`,
     getPatients:`${base}/TriageSystem/api/Procedure/sp_Triage_WinTriageList`,
     getTriageInit:`${base}/TriageSystem/api/TriageField/Init`,
-    getTriageDictionarySearchAll:`${base}/TriageSystem/api/TriageField/FillTriageDictionarySearchAllNotCompress`
-
+    getTriageDictionarySearchAll:`${base}/TriageSystem/api/TriageField/FillTriageDictionarySearchAllNotCompress`,
+    getTriageList:`${base}/TriageSystem/api/Procedure/sp_Triage_WinTriageList`,
+    getExaminationItemSearch:`${base}/TriageSystem/api/FieldExamination/FieldExaminationItemSearch`,
+    saveTriage:`${base}/TriageSystem/api/TriageField/SaveTriage`
 }

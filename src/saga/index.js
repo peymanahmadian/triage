@@ -1,2 +1,2 @@
 export {authentication,getInformation,singOutInformation} from "./account";
-export {init,fillTriage} from "./triage";
+export {init,fillTriage,postTriage} from "./triage";

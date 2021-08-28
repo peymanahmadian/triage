@@ -1,4 +1,3 @@
-import {useState} from "react";
 import "./../../assets/styles/login.scss";
 import loginImg from "./../../assets/images/login.svg";
 import {Input,Button,Form} from "antd";
@@ -19,7 +18,6 @@ const Login=()=>{
             <Form
                 name={"login"}
                 onFinish={(param)=>login(param)}
-                onFinishFailed={(err)=>{debugger}}
             >
                <Form.Item name={"Username"} rules={[{required:true,message:"نام کاربری را وارد نمایید"}]}>
                    <Input

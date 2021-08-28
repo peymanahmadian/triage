@@ -15,6 +15,14 @@
     }
   }
   fieldset{
+    &.inner{
+      margin: -10px 0;
+      border-radius: 2px;
+      color: #bcbcbc;
+      border-color: #c9c9c9;
+      min-height: 88px;
+      margin-bottom: 4px;
+    }
     border:1px solid gray;
     padding: 4px 8px;
     margin-top: 15px;

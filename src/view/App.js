@@ -23,7 +23,6 @@ const App=()=> {
     const { Header, Sider, Content } = Layout;
     //check token
     useEffect(()=>{
-        debugger;
         if(localStorage.getItem("triageToken")){
             dispatch(validAction(true))
         }
@@ -31,8 +30,7 @@ const App=()=> {
     //check message show
     useEffect(()=>{
         if(message.show){
-            notification.error({
-                message: 'خطا',
+            notification.info({
                 description:message.content
             });
         }

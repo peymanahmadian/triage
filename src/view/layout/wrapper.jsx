@@ -13,7 +13,6 @@ const Wrapper=()=>{
         if(param){
             dispatch(changeLoading(true));
             patients.get(param).then(data=>{
-                debugger;
                 dispatch(changeLoading(false));
                 let cash=data.data.map((i,index)=>({...i,key:index}));
                 setDataSearch(cash);
