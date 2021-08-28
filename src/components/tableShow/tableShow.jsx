@@ -1,11 +1,8 @@
-import {useEffect} from "react";
 import {Table} from "antd";
 import Expand from "./expand";
 import "./tableShow.scss";
 const TableShow=(props)=>{
-    useEffect(()=>{
 
-    },[props.data])
     const columns = [
         {
             title: 'نوع تریاژ',
@@ -57,12 +54,6 @@ const TableShow=(props)=>{
            expandable={{
                expandedRowRender: record => <Expand record={record}/>,
            }}
-           // locale={{
-           //     emptyText:"داده ای وجود ندارد",
-           //     triggerDesc: 'چینش بر اساس حروف از اول به آخر',
-           //     triggerAsc: 'چینش بر اساس حروف از آخر به اول',
-           //     cancelSort: 'لغو چینش',
-           // }}
         />
     )
 }

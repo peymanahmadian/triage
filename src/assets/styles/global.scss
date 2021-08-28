@@ -154,3 +154,32 @@ body{
 .grayText{
   color:$gray;
 }
+.error{
+  border:1px solid $red;
+  border-radius: 2px;
+  box-shadow: none;
+  margin-bottom: 4px;
+  .ant-select-selector{
+    border: 0 !important;
+  }
+  &::placeholder{
+    color:$red
+  }  
+  .ant-select-selection-placeholder{
+    color:$red
+  }
+  
+
+}
+form{
+  display: block;
+}
+.requried{
+    // position: absolute;
+    // top: 15px;
+    // right: 6px;
+    // z-index: 999;
+    // color: red;
+    border-right: 2px solid red;
+    border-radius: 2px;
+}

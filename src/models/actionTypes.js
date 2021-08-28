@@ -15,5 +15,7 @@ export const visualActionType={
 export const TriageActionType={
     init:"init",
     setInit:"setInit",
-    fillTriage:"fillTriage"
+    fillTriage:"fillTriage",
+    fillSicknessList:"fillSicknessList",
+    postTriage:"postTriage"
 }

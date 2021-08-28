@@ -48,7 +48,6 @@ function* getInformationFn(){
             yield put(changeLoading(false));
 
         }else if(response.status===200){
-            debugger;
             yield put(setInformation(response.data))
             yield put(changeLoading(false));
         }
@@ -58,7 +57,6 @@ function* getInformationFn(){
     }
 }
 function* singOutInformationFn(){
-    debugger;
     localStorage.removeItem("triageToken");
     localStorage.removeItem("triagePass");
     yield put(setInformation(null));
