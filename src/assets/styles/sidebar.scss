@@ -1,0 +1,88 @@
+@import "global";
+.sidebar{
+  height: 100%;
+  box-sizing: border-box;
+  position: relative;
+  padding: 6px;
+  .paddingUp{
+    padding-top: 60px;
+  }
+  .marginBottom{
+    margin-bottom: 2px;
+  }
+  .icon{
+    text-align: center;
+  }
+  .titleLine{
+    display: flex;
+    padding: 10px 0;
+    flex-direction: row-reverse;
+    div{
+      hr{
+        border:0;
+        border-top:1px dashed black;
+        margin:9px 6px;
+      }
+      width: 65%;
+      &:first-child{
+        width: 25%;
+        font-size: 12px;
+        text-align: left;
+      }
+      &:last-child{
+        width: 10%;
+      }
+    }
+  }
+  .username{
+    strong{
+      text-align: center;
+      width: 100%;
+      display: block;
+      padding: 10px 0 6px;
+
+    }
+  }
+  .showText{
+    display: flex;
+    justify-content:space-between;
+    padding: 4px 6px;
+    flex-direction: row-reverse;
+    div:first-child{
+      background-color: white;
+      border-radius: 4px;
+      width: 60%;
+      direction: ltr;
+      padding: 4px 4px;
+      box-sizing: content-box;
+      font-size: 12px;
+      text-align: center;
+    }
+    div:last-child{
+      width: 40%;
+      box-sizing: content-box;
+    }
+  }
+  .footerBottom{
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0;
+    margin-top: 6px;
+    .info{
+      display: flex;
+      background: white;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px;
+      border-radius: 6px;
+      border:0;
+      >div{
+        line-height: 32px;
+        padding: 0 18px;
+        color:$red
+      }
+    }
+  }
+
+}

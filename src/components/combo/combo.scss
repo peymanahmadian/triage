@@ -1,0 +1,51 @@
+.comboInput{
+  max-width: 106px;
+  background-color: lightgrey;
+  display: flex;
+  border-radius: 6px;
+  padding: 2px;
+  .labelText{
+    padding: 10px 2px;
+    line-height: 26px;
+    box-sizing: content-box;
+    padding-top: 12px;
+    min-width: 32px;
+    text-align: center;
+  }
+  .inputText{
+    max-width: 50px;
+    input{
+      height: 48px;
+      border: 1px solid lightgray;
+      border-radius: 6px;
+      width: 40px;
+      text-align: center;
+    }
+  }
+  .buttons{
+    padding-right: 2px;
+    div{
+      button{
+        border: 1px solid gray;
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+      }
+      &.up{
+        button{
+          border-radius: 6px 6px 0 0;
+          border-bottom: 0;
+
+        }
+      }
+      &.bottom{
+        button{
+          border-radius: 0 0 6px 6px;
+        }
+      }
+
+
+    }
+  }
+  display: flex;
+}

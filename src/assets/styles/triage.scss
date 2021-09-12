@@ -1,0 +1,109 @@
+@import "global";
+.triage{
+  .body{
+    height: 100vh;
+    padding-top: 6px;
+  }
+  .content{
+    padding: 8px;
+    .headerTriage{
+      .showText{
+        padding:6px 8px;
+        background-color: $gray_light;
+        border-radius: 4px;
+      }
+    }
+  }
+  fieldset{
+    &.inner{
+      margin: -10px 0;
+      border-radius: 2px;
+      color: #bcbcbc;
+      border-color: #c9c9c9;
+      min-height: 88px;
+      margin-bottom: 4px;
+    }
+    border:1px solid gray;
+    padding: 4px 8px;
+    margin-top: 15px;
+    legend{
+      min-width: 95px;
+      display: flex;
+      font-size: 14px;
+      width: auto;
+      padding-left: 6px;
+      padding-right: 0;
+      justify-content:space-between;
+      &.red{
+        color:darkred;
+      }
+      &.yellow{
+        color:orangered;
+      }
+      &.gray{
+        color:dimgray;
+      }
+      &.green{
+        color:#065817;
+      }
+      span.anticon{
+        padding-top: 4px;
+        padding-left: 4px;
+        padding-right: 2px;
+      }
+      span{
+        display: block;
+      }
+      div{
+        line-height: 32px;
+      }
+    }
+
+  }
+}
+.sidebar.triage{
+  padding-top: 45px;
+}
+.grayTitle{
+  display: flex;
+  background-color: #e5e5e5;
+  border-radius: 4px;
+  padding-bottom: 2px;
+  margin-bottom: 8px;
+  .grayHead{
+    min-width: 150px;
+    padding: 6px 10px;
+  }
+  .grayContent{
+    padding-top: 8px;
+  }
+}
+.container{
+  padding: 10px 4px;
+}
+.toolbar{
+  display: flex;
+  width: 100%;
+  align-content: stretch;
+  .bar{
+    flex-grow: 5;
+  }
+  .label{
+    flex-grow: 0;
+    padding: 4px 10px;
+
+  }
+}
+.flexInput{
+  display: flex;
+  .ant-input-affix-wrapper.ant-input-affix-wrapper-rtl{
+    border-radius: 4px;
+    margin-left: 2px;
+  }
+}
+.paddingTop{
+  padding-top:14px !important;
+}
+.marginTop{
+  margin-top: 6px !important;
+}

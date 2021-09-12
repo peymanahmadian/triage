@@ -1,0 +1,16 @@
+.filterBox{
+  margin: 4px;
+  border-radius: 4px;
+  border:1px solid #d9d1d1;
+  padding: 6px;
+  .paddingTop{
+    padding-top: 12px !important;
+  }
+  .buttonSearch{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+
+  }
+
+}

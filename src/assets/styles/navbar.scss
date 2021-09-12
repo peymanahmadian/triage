@@ -1,0 +1,17 @@
+.menubar{
+  display: flex;
+  flex-direction:row-reverse;
+  align-items: center;
+  >div,>button{
+    margin:0 6px;
+  }
+
+}
+.hover{
+  cursor: pointer;
+  transition: all 0.2s ease-in;
+  &:hover{
+    transform: scale(0.90);
+    opacity: 0.8;
+  }
+}
