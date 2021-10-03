@@ -15,7 +15,7 @@ import {
   AutoComplete,
   Tag,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { FastForwardFilled, UploadOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
 import "../../assets/styles/triage.scss";
 import SidebarTriage from "./sidebarTriage";
@@ -40,8 +40,10 @@ const Triage = () => {
   //global user information
   const { information } = useSelector((state) => state.Account);
   const [active, setActive] = useState(false);
+  const [quarantine,setQuarantine]=useState("QuarantineNoNeed");
   const [hiddenIsPregnant, setHiddenIsPregnant] = useState(false);
   const [encounter, setEncounter] = useState("Encounter24HoursNothing");
+  const [statusCheckbox,setStatusCheckbox]=useState("");
   const { complaint, allergy, medicalRecord } = useSelector(
     (state) => state.Triage
   );
@@ -93,13 +95,13 @@ const Triage = () => {
       age: 0,
       NationalCode: "",
       IsPregnant: false,
-      //تصویر بیمار
+      TriagePic_file:null,
       Tel1: null,
       FatherName: "",
       Weight: "",
       JobName: "",
       Address: "",
-      //تابعیت
+      ReligionId:"",
       EncounterReasonId: "",
       TriageEntryMethodId: "",
       TriageReferPattern_ID: "",
@@ -108,16 +110,39 @@ const Triage = () => {
       Encounter24HoursThis: false,
       Encounter24HoursOther: false,
       Encounter24HoursOtherText: "",
-      //ارجاع درمانگاه
-      //از
+      TriageReferFromClinicId:null,
+      TriageReferFromText:"",
       objDictionaryList:[],
       objDictionaryList_allergy:[],
-      objDictionaryList_disease:[],
       Note2:"",
+      LevelConsciousness:"A",
+      DangerousRespire:false,
+      RespireDistress:false,
+      Sianosis:false,
+      Shock:false,
+      SPO:false,
+      Intubation:false,
+      HighDanger:true,
+      Lethargy:false,
+      HighDistress:false,
       Pain: 0,
+      BS:0,
+      objDictionaryList_disease:[],
+      ServiceCount:0,
       TriageLevel: 0,
+      PractitionerComment:"",
+      BPD_value:0,
+      BPS_value:0,
+      PR_value:0,
+      RR_value:0,
+      SPO2_value:0,
+      T_value:0,
+      QuarantineNoNeed:true,
+      QuarantineContact:false,
+      QuarantineDrop:false,
+      QuarantineRespiratory:false,
+      PatientId_HIS:null,
       LocationId: ""
-      
     },
     validationSchema: validationSchema,
     validateOnBlur:true,
@@ -152,7 +177,7 @@ const Triage = () => {
           TriageEntryMethodId: values.TriageEntryMethodId,
           TriageReferFromClinicId: null,
           TriageLevel: values.TriageLevel,
-          LevelConsciousness: null,
+          LevelConsciousness: values.LevelConsciousness,
           IsPregnant: false,
           IsAccident: false,
           IsRefer24HoursAgo: false,
@@ -162,30 +187,30 @@ const Triage = () => {
           Encounter24HoursAgo: false,
           Encounter3MonthsAgo: false,
           DrugHistory: "",
-          Shock: false,
-          DangerousRespire: false,
-          RespireDistress: false,
-          Sianosis: false,
-          SPO2: false,
-          Intubation: false,
-          HighDanger: false,
-          Lethargy: false,
-          HighDistress: false,
-          ReferToDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
-          TriageDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
-          TriageDateStart: moment().format("YYYY-DD-MMTHH:mm:SS"),
+          Shock: values.Shock,
+          DangerousRespire: values.DangerousRespire,
+          RespireDistress: values.RespireDistress,
+          Sianosis: values.Sianosis,
+          SPO2: values.SPO2,
+          Intubation: values.Intubation,
+          HighDanger: values.HighDanger,
+          Lethargy: values.Lethargy,
+          HighDistress: values.HighDistress,
+          ReferToDate: moment().format("YYYY-MM-DDTHH:mm:SS"),
+          TriageDate: moment().format("YYYY-MM-DDTHH:mm:SS"),
+          TriageDateStart: moment().format("YYYY-MM-DDTHH:mm:SS"),
           ServiceCount: null,
           PractitionerComment: "",
           Note1: null,
           Note2: "",
-          BS: 0,
-          NationalCode: "",
-          Tel1: "",
+          BS: values.BS,
+          NationalCode: values.NationalCode,
+          Tel1: values.Tel1,
           IsGrtReport: false,
-          IsAnonymous: true,
+          IsAnonymous: values.IsAnonymous,
           IsFormal: false,
           IsSave: true,
-          CreateOn: moment().format("YYYY-DD-MMTHH:mm:SS"),
+          CreateOn: moment().format("YYYY-MM-DDTHH:mm:SS"),
           ModifyOn: null,
           CreateBy: information.UserId,
           CreateByUserFullName: null,
@@ -215,21 +240,21 @@ const Triage = () => {
           SevereUterineContractionsMothers: false,
           IsPrint: false,
           AmbulanceCode: values.AmbulanceCode,
-          FatherName: "",
+          FatherName: values.FatherName,
           ReligionId: null,
-          Address: "",
-          JobName: "",
+          Address: values.Address,
+          JobName: values.JobName,
           TriageReferFromText: "",
           Encounter24HoursNothing: values.Encounter24HoursNothing,
           Encounter24HoursThis: values.Encounter24HoursThis,
           Encounter24HoursOther: values.Encounter24HoursOther,
           Encounter24HoursOtherText: values.Encounter24HoursOtherText,
           Pain: values.Pain,
-          QuarantineNoNeed: false,
-          QuarantineContact: false,
-          QuarantineDrop: false,
-          QuarantineRespiratory: false,
-          PatientId_HIS: null,
+          QuarantineNoNeed: values.QuarantineNoNeed,
+          QuarantineContact: values.QuarantineContact,
+          QuarantineDrop: values.QuarantineDrop,
+          QuarantineRespiratory: values.QuarantineRespiratory,
+          PatientId_HIS: values.PatientId_HIS,
           AreaId: null,
           Weight: values.Weight,
           TriagePicDto: null,
@@ -240,7 +265,8 @@ const Triage = () => {
         MachineName: "",
         IsNotCompress: false,
       };
-      dispatch(postTriage(param));
+      debugger;
+      //dispatch(postTriage(param));
     },
   });
   useEffect(() => {
@@ -285,6 +311,10 @@ const Triage = () => {
     }
   }, [information]);
 
+  const handleCheckbox=(value)=>{
+    formik.setFieldValue(value.target.name,value.target.checked);
+
+  }
   const onSearchComplaint = (text) => {
     if (text.length > 2) {
       let cash = complaint.filter((item) => item.Name.indexOf(text) > -1);
@@ -294,7 +324,6 @@ const Triage = () => {
     }
   };
   const onSelectComplaint = (param) => {
-    debugger;
     setComplaintSelect(null);
     let convertedParam = null;
     try {
@@ -364,6 +393,8 @@ const Triage = () => {
     }
   };
   const onSelectMedical = (i) => {
+    debugger;
+
     setMedicalSelect(null);
     let cash = [
       ...medicalList,
@@ -412,6 +443,30 @@ const Triage = () => {
     setMedicalList(cash);
   };
   //handle action
+  const handleOptionStatus=(e)=>{
+    switch(e.target.value){
+      case "HighDanger":
+        formik.setFieldValue("HighDanger", true);
+        formik.setFieldValue("Lethargy", false);
+        formik.setFieldValue("HighDistress", false);
+        setStatusCheckbox("HighDanger");
+        break;
+      case "Lethargy":
+        formik.setFieldValue("HighDanger", false);
+        formik.setFieldValue("Lethargy", true);
+        formik.setFieldValue("HighDistress", false);
+        setStatusCheckbox("Lethargy");
+        break;
+      case "HighDistress":
+        formik.setFieldValue("HighDanger", false);
+        formik.setFieldValue("Lethargy", false);
+        formik.setFieldValue("HighDistress", true);
+        setStatusCheckbox("HighDistress");
+        break;
+      default:
+        break;
+    }
+  }
   const handleOption = (e) => {
     switch (e.target.value) {
       case "Encounter24HoursNothing":
@@ -431,6 +486,41 @@ const Triage = () => {
         formik.setFieldValue("Encounter24HoursThis", false);
         formik.setFieldValue("Encounter24HoursOther", true);
         setEncounter("Encounter24HoursOther");
+        break;
+      default:
+        break;
+    }
+  };
+  const handleQuarantine = (e) => {
+    debugger;
+    switch (e.target.value) {
+      case "QuarantineNoNeed":
+        formik.setFieldValue("QuarantineNoNeed", true);
+        formik.setFieldValue("QuarantineContact", false);
+        formik.setFieldValue("QuarantineDrop", false);
+        formik.setFieldValue("QuarantineRespiratory", false);
+        setQuarantine("QuarantineNoNeed");
+        break;
+      case "QuarantineContact":
+        formik.setFieldValue("QuarantineNoNeed", false);
+        formik.setFieldValue("QuarantineContact", true);
+        formik.setFieldValue("QuarantineDrop", false);
+        formik.setFieldValue("QuarantineRespiratory", false);
+        setQuarantine("QuarantineContact");
+        break;
+      case "QuarantineDrop":
+        formik.setFieldValue("QuarantineNoNeed", false);
+        formik.setFieldValue("QuarantineContact", false);
+        formik.setFieldValue("QuarantineDrop", true);
+        formik.setFieldValue("QuarantineRespiratory", false);
+        setQuarantine("QuarantineDrop");
+        break;
+      case "QuarantineRespiratory":
+        formik.setFieldValue("QuarantineNoNeed", false);
+        formik.setFieldValue("QuarantineContact", false);
+        formik.setFieldValue("QuarantineDrop", false);
+        formik.setFieldValue("QuarantineRespiratory", true);
+        setQuarantine("QuarantineRespiratory");
         break;
       default:
         break;
@@ -495,8 +585,8 @@ const Triage = () => {
             </Col>
           </Row>
           <form  onSubmit={formik.handleSubmit} onKeyPress={e => {
-  if (e.key === 'Enter') e.preventDefault();
-}} >
+                  if (e.key === 'Enter') e.preventDefault();
+                }} >
             <Row>
               <Col xs={24} md={24}>
                 <fieldset>
@@ -598,7 +688,7 @@ const Triage = () => {
                     <Col xs={12} md={4}>
                       <Upload>
                         <Button>
-                          <UploadOutlined /> تصویر بیمار{" "}
+                          <UploadOutlined  /> تصویر بیمار
                         </Button>
                       </Upload>
                     </Col>
@@ -831,6 +921,9 @@ const Triage = () => {
                     <Col xs={24} md={8}>
                       {formik.values.Encounter24HoursOther && (
                         <Input
+                          onChange={formik.handleChange}
+                          name="Encounter24HoursOtherText"
+                          value={formik.values.Encounter24HoursOtherText}
                           size={"large"}
                           className={
                             formik.touched.Encounter24HoursOtherText &&
@@ -886,14 +979,13 @@ const Triage = () => {
                     <Col xs={24} md={12}>
                       <AutoComplete
                         className={`${formik.touched.objDictionaryList && Boolean(formik.errors.objDictionaryList) && "error" } requried`}
-
                         value={complaintSelect}
                         onChange={(i) => setComplaintSelect(i)}
                         style={{ width: "100%" }}
                         onSelect={onSelectComplaint}
                         onSearch={onSearchComplaint}
                         onKeyPress={(e) => {
-                          if (e.charCode === 13 && complaintSelect.length > 3)
+                          if (e.charCode === 13 && complaintSelect.length > 1)
                             onSelectComplaint(complaintSelect);
                         }}
                         placeholder="جستجوی شکایت اصلی"
@@ -909,6 +1001,7 @@ const Triage = () => {
                         placeholder={"شرح"}
                         className={"marginTop"}
                         name="Note2"
+                        value={formik.values.Note2}
                         onChange={formik.handleChange}
                       />
                       {formik.touched.objDictionaryList &&
@@ -995,32 +1088,32 @@ const Triage = () => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>سطح هوشیاری بیمار</div>
                     <div className={"grayContent"}>
-                      <Radio.Group onChange={() => {}} value={1}>
-                        <Radio value={1}>A</Radio>
-                        <Radio value={2}>V</Radio>
-                        <Radio value={3}>P</Radio>
-                        <Radio value={4}>U</Radio>
+                      <Radio.Group value={formik.values.LevelConsciousness} onChange={(e) =>{formik.setFieldValue("LevelConsciousness",e.target.value)}}>
+                        <Radio value={"A"}>A</Radio>
+                        <Radio value={"V"}>V</Radio>
+                        <Radio value={"P"}>P</Radio>
+                        <Radio value={"U"}>U</Radio>
                       </Radio.Group>
                     </div>
                   </div>
                   <Row className={"container"}>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>مخاطره راه هوایی</Checkbox>
+                      <Checkbox value={formik.values.DangerousRespire} name="DangerousRespire" onChange={e=>handleCheckbox(e)}>مخاطره راه هوایی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>دیسترس تنفسی</Checkbox>
+                      <Checkbox value={formik.values.RespireDistress} name="RespireDistress" onChange={e=>handleCheckbox(e)}>دیسترس تنفسی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>سیانوز</Checkbox>
+                      <Checkbox value={formik.values.Sianosis} name="Sianosis" onChange={e=>handleCheckbox(e)}>سیانوز</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>علائم شوک</Checkbox>
+                      <Checkbox value={formik.values.Shock} name="Shock" onChange={e=>handleCheckbox(e)}>علائم شوک</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>SPO</Checkbox>
+                      <Checkbox value={formik.values.SPO} name="SPO2" onChange={e=>handleCheckbox(e)}>SPO</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>انتوباسیون</Checkbox>
+                      <Checkbox value={formik.values.Intubation} name="Intubation" onChange={e=>handleCheckbox(e)}>انتوباسیون</Checkbox>
                     </Col>
                   </Row>
                 </fieldset>
@@ -1036,10 +1129,14 @@ const Triage = () => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>شرایط</div>
                     <div className={"grayContent"}>
-                      <Radio.Group onChange={() => {}} value={1}>
-                        <Radio value={1}>پر خطر</Radio>
-                        <Radio value={2}>لتاژی و خواب آلودگی</Radio>
-                        <Radio value={3}>دیسترس شدید</Radio>
+                      <Radio.Group
+                        name={"status"}
+                        onChange={handleOptionStatus}
+                        value={statusCheckbox}
+                      >
+                        <Radio value={"HighDanger"}>پر خطر</Radio>
+                        <Radio value={"Lethargy"}>لتاژی و خواب آلودگی</Radio>
+                        <Radio value={"HighDistress"}>دیسترس شدید</Radio>
                       </Radio.Group>
                     </div>
                   </div>
@@ -1074,6 +1171,9 @@ const Triage = () => {
                     <Col xs={24} md={12}>
                       <div className={"toolbar"}>
                         <Input
+                          name="BS"
+                          onChange={formik.handleChange}
+                          value={formik.values.BS}
                           prefix={
                             <span className={"grayText"}> میزان قند خون:</span>
                           }
@@ -1082,7 +1182,7 @@ const Triage = () => {
                     </Col>
                   </Row>
                   <Row gutter={[12, 12]}>
-                    <Col xs={24} md={12}>
+                    {/* <Col xs={24} md={12}>
                       <label className={"paddingBottom"}>
                         سابقه دارویی
                       </label>
@@ -1094,7 +1194,7 @@ const Triage = () => {
                         onSearch={onSearchMedicalName}
                         placeholder="سابقه دارویی"
                         onKeyPress={(e) => {
-                          if (e.charCode === 13 && medicalNameSelect.length > 3)
+                          if (e.charCode === 13 && medicalNameSelect.length > 1)
                             onSelectMedicalName(medicalNameSelect);
                         }}
                       >
@@ -1104,7 +1204,7 @@ const Triage = () => {
                           </AutoComplete.Option>
                         ))}
                       </AutoComplete>
-                    </Col>
+                    </Col> */}
                     <Col xs={24} md={12}>
                       <label className={"paddingBottom"}>سابقه پزشکی</label>
                       <AutoComplete
@@ -1124,7 +1224,7 @@ const Triage = () => {
                     </Col>
                   </Row>
                   <Row gutter={[12, 6]}>
-                    <Col xs={24} md={12}>
+                    {/* <Col xs={24} md={12}>
                       <fieldset className={"inner"}>
                         <legend>لیست داروها</legend>
                         {medicalNameList.map((item) => (
@@ -1137,7 +1237,7 @@ const Triage = () => {
                           </Tag>
                         ))}
                       </fieldset>
-                    </Col>
+                    </Col> */}
                     <Col xs={24} md={12}>
                       <fieldset className={"inner"}>
                         <legend>لیست سابقه پزشکی</legend>
@@ -1178,7 +1278,6 @@ const Triage = () => {
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={6}>
                       <Select
-                        name={"x"}
                         size={"large"}
                         placeholder={"سطح تریاژ"}
                         name="TriageLevel"
@@ -1236,28 +1335,23 @@ const Triage = () => {
                     <Col xs={24} md={20}>
                       <Row>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"BPS"} />
+ 
+                          <Combo onChange={e=>formik.setFieldValue("BPS_value",e)} label={"BPS"} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"BPD"} />
+                          <Combo onChange={e=>formik.setFieldValue("BPD_value",e)} label={"BPD"} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"PR"} />
+                          <Combo onChange={e=>formik.setFieldValue("PR_value",e)} label={"PR"}  />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"RR"} />
+                          <Combo onChange={e=>formik.setFieldValue("RR_value",e)} label={"RR"} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"T"} />
+                          <Combo onChange={e=>formik.setFieldValue("T_value",e)} label={"T"} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"SPO2"} />
+                          <Combo onChange={e=>formik.setFieldValue("SPO2_value",e)} label={"SPO2"} />
                         </Col>
                       </Row>
                     </Col>
@@ -1279,11 +1373,11 @@ const Triage = () => {
                           جدا سازی و احتیاط بیشتر کنترل عفونت
                         </div>
                         <div className={"grayContent"}>
-                          <Radio.Group onChange={() => {}} value={1}>
-                            <Radio value={1}>نیاز ندارد</Radio>
-                            <Radio value={2}>تماسی</Radio>
-                            <Radio value={3}>قطره ای</Radio>
-                            <Radio value={4}>تنفسی</Radio>
+                          <Radio.Group onChange={handleQuarantine} value={quarantine}>
+                            <Radio value={"QuarantineNoNeed"}>نیاز ندارد</Radio>
+                            <Radio value={"QuarantineContact"}>تماسی</Radio>
+                            <Radio value={"QuarantineDrop"}>قطره ای</Radio>
+                            <Radio value={"QuarantineRespiratory"}>تنفسی</Radio>
                           </Radio.Group>
                         </div>
                       </div>
@@ -1292,6 +1386,9 @@ const Triage = () => {
                       <div className={"flexInput"}>
                         <Input
                           size="large"
+                          name="PatientId_HIS"
+                          onChange={formik.handleChange}
+                          value={formik.values.PatientId_HIS}
                           prefix={
                             <span className={"grayText"}>کد بیمار در HIS:</span>
                           }
