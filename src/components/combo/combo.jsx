@@ -10,7 +10,7 @@ const Combo=(props)=>{
     return(
         <div className={"comboInput"}>
             <div className={"labelText"}>{props.label}</div>
-            <div className={"inputText"} ><input value={value} type={"text"}/></div>
+            <div className={"inputText"} ><input onChange={e=>setValue(e.target.value)} value={value} type={"text"}/></div>
             <div className={"buttons"}>
                 <div className={"up"}><button type={"button"} onClick={()=>setValue(value+1)}><PlusOutlined /></button></div>
                 <div className={"bottom"}><button type={"button"} onClick={()=>setValue(value-1)}><MinusOutlined /></button></div>

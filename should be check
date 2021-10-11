@@ -1,0 +1,29 @@
+
+اینا باید چک بشه
+
+      TriagePic_File:null,
+
+
+
+
+
+      ReligionId:"",
+      EncounterReasonId: "",
+      TriageEntryMethodId: "",
+      TriageReferPattern_ID: "",
+      AmbulanceCode: "",
+      Encounter24HoursNothing: true,
+      Encounter24HoursThis: false,
+      Encounter24HoursOther: false,
+      Encounter24HoursOtherText: "",
+      TriageReferFromClinicId:"",
+      TriageReferFromText:"",
+      objDictionaryList:[],
+      objDictionaryList_allergy:[],
+      objDictionaryList_disease:[],
+      Note2:"",
+      Pain: 0,
+      TriageLevel: 0,
+      LocationId: "",
+      ServiceCount:0,
+      PractitionerComment:""

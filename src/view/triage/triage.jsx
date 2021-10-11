@@ -13,7 +13,7 @@ import {
   Select,
   Upload,
   AutoComplete,
-  Tag,
+  Tag, Modal,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useFormik } from "formik";
@@ -34,6 +34,7 @@ import triage from "../../api/triage";
 import * as yup from "yup";
 //action
 import { init, fillTriage } from "../../actions/triage.action";
+import TextArea from "antd/es/input/TextArea";
 
 const Triage = () => {
   const dispatch = useDispatch();
@@ -93,13 +94,13 @@ const Triage = () => {
       age: 0,
       NationalCode: "",
       IsPregnant: false,
-      //تصویر بیمار
+      TriagePic_File: null,
       Tel1: null,
       FatherName: "",
       Weight: "",
       JobName: "",
       Address: "",
-      //تابعیت
+      ReligionId: "",
       EncounterReasonId: "",
       TriageEntryMethodId: "",
       TriageReferPattern_ID: "",
@@ -108,16 +109,39 @@ const Triage = () => {
       Encounter24HoursThis: false,
       Encounter24HoursOther: false,
       Encounter24HoursOtherText: "",
-      //ارجاع درمانگاه
-      //از
-      objDictionaryList:[],
-      objDictionaryList_allergy:[],
-      objDictionaryList_disease:[],
-      Note2:"",
+      TriageReferFromClinicId: "",
+      TriageReferFromText: "",
+      objDictionaryList: [],
+      Note2: "",
+      objDictionaryList_allergy: [],
+      LevelConsciousness: "",
+      DangerousRespire: false,
+      RespireDistress: false,
+      Sianosis: false,
+      Shock: false,
+      SPO2: false,
+      Intubation: false,
+      HighDanger: false,
+      Lethargy: false,
+      HighDistress: false,
       Pain: 0,
+      BS: 0,
+      objDictionaryList_disease: [],
+      ServiceCount: 0,
       TriageLevel: 0,
+      PractitionerComment: "",
+      BPD: 0,
+      BPS: 0,
+      PR: 0,
+      RR: 0,
+      SPO_2: 0,
+      T: 0,
+      QuarantineNoNeed: false,
+      QuarantineContact: false,
+      QuarantineDrop: false,
+      QuarantineRespiratory: false,
+      PatientId_HIS: null,
       LocationId: ""
-      
     },
     validationSchema: validationSchema,
     validateOnBlur:true,
@@ -365,13 +389,7 @@ const Triage = () => {
   };
   const onSelectMedical = (i) => {
     setMedicalSelect(null);
-    let cash = [
-      ...medicalList,
-      {
-        ItemDictionaryId: i,
-        Name: medicalOpt.find((opt) => opt.ItemDictionaryId === i).Name,
-      },
-    ];
+    let cash = [...medicalList, i];
     setMedicalList([...new Set(cash)]);
     setMedicalOpt([]);
   };
@@ -411,8 +429,13 @@ const Triage = () => {
     cash.splice(itemIndex, 1);
     setMedicalList(cash);
   };
+  //serviceCount
+  const [serviceCount,setServiceCount]=useState(null);
+  //handle modal
+  const [modalVisible,setModalVisible]=useState(false);
   //handle action
   const handleOption = (e) => {
+    debugger;
     switch (e.target.value) {
       case "Encounter24HoursNothing":
         formik.setFieldValue("Encounter24HoursNothing", true);
@@ -436,6 +459,30 @@ const Triage = () => {
         break;
     }
   };
+  const [status,setStatus]=useState(null);
+  const onBindStatus=(e)=>{
+    formik.values.HighDanger=false;
+    formik.values.Lethargy=false;
+    formik.values.HighDistress=false;
+    formik.setFieldValue(e,true);
+  }
+  const [consciousness,setConsciousness]=useState(null);
+  const [sepration,setSepration]=useState(null);
+  const onBindSepration=(e)=>{
+    formik.values.QuarantineContact=false;
+    formik.values.QuarantineRespiratory=false;
+    formik.values.QuarantineDrop=false;
+    formik.values.QuarantineNoNeed=false;
+    setSepration(e.target.value);
+    formik.setFieldValue(e.target.value,true);
+  }
+  const [BPD,setBPD]=useState(0);
+  const [BPS,setBPS]=useState(0);
+  const [PR,setPR]=useState(0);
+  const [RR,setRR]=useState(0);
+  const [SPO2,setSPO2]=useState(0);
+  const [T,setT]=useState(0);
+
   return (
     <Layout className={"layout triage"}>
       <Layout className={"body"}>
@@ -494,9 +541,7 @@ const Triage = () => {
               </div>
             </Col>
           </Row>
-          <form  onSubmit={formik.handleSubmit} onKeyPress={e => {
-  if (e.key === 'Enter') e.preventDefault();
-}} >
+          <form onSubmit={formik.handleSubmit} onKeyPress={e => {if (e.key === 'Enter') e.preventDefault()}}>
             <Row>
               <Col xs={24} md={24}>
                 <fieldset>
@@ -596,9 +641,10 @@ const Triage = () => {
                       />
                     </Col>
                     <Col xs={12} md={4}>
-                      <Upload>
+                      //@todo create file upload
+                      <Upload onChange={e=>{debugger}}>
                         <Button>
-                          <UploadOutlined /> تصویر بیمار{" "}
+                          <UploadOutlined /> تصویر بیمار
                         </Button>
                       </Upload>
                     </Col>
@@ -673,14 +719,21 @@ const Triage = () => {
                     )}
                     <Col xs={24} md={5}>
                       <Select
-                        name={"x"}
+                        name={"ReligionId"}
                         size={"large"}
                         className={"full"}
                         placeholder={"تابعیت"}
+                        onChange={e=>formik.setFieldValue("ReligionId",e)}
                       >
-                        <Select.Option key={0}>ایرانی</Select.Option>
-                        <Select.Option key={1}>افغانی</Select.Option>
-                        <Select.Option key={2}>غیرایرانی</Select.Option>
+                        {information &&
+                        information.ReligionsDto.map((item) => (
+                            <Select.Option
+                                value={item.ReligionId}
+                                key={item.ReligionId}
+                            >
+                              {item.ReligionName}
+                            </Select.Option>
+                        ))}
                       </Select>
                     </Col>
                   </Row>
@@ -831,6 +884,8 @@ const Triage = () => {
                     <Col xs={24} md={8}>
                       {formik.values.Encounter24HoursOther && (
                         <Input
+                          name={"Encounter24HoursOtherText"}
+                          onChange={formik.handleChange}
                           size={"large"}
                           className={
                             formik.touched.Encounter24HoursOtherText &&
@@ -853,23 +908,26 @@ const Triage = () => {
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={6}>
                       <Select
-                        className={`full`}
+                        className={`TriageReferFromClinicId`}
                         size={"large"}
                         placeholder={"ارجاع درمانگاه"}
+                        onChange={e=>formik.setFieldValue("TriageReferFromClinicId",e)}
+
                       >
-                        <Select.Option value={""} key={0}>
-                            
-                        </Select.Option>
-                        <Select.Option value={1} key={1}>
-                            از درمانگاه همین بیمارستان
-                        </Select.Option>
-                        <Select.Option value={2} key={2}>
-                           از درمانگاه سایر بیمارستان ها
-                        </Select.Option>
+                        {information &&
+                        information.TriageReferFromClinicsDto.map((item) => (
+                            <Select.Option
+                                key={item.TriageReferFromClinicId}
+                                value={item.TriageReferFromClinicId}
+                            >
+                              {item.TriageReferFromClinicName}
+                            </Select.Option>
+                        ))}
                       </Select>
                     </Col>
                     <Col xs={24} md={6}>
-                      <Input size={"large"} placeholder={"از"} />
+
+                      <Input name={"TriageReferFromText"} onChange={formik.handleChange} size={"large"} placeholder={"از"} />
                     </Col>
                   </Row>
                 </fieldset>
@@ -995,32 +1053,32 @@ const Triage = () => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>سطح هوشیاری بیمار</div>
                     <div className={"grayContent"}>
-                      <Radio.Group onChange={() => {}} value={1}>
-                        <Radio value={1}>A</Radio>
-                        <Radio value={2}>V</Radio>
-                        <Radio value={3}>P</Radio>
-                        <Radio value={4}>U</Radio>
+                      <Radio.Group name={"LevelConsciousness"} onChange={(e) => {setConsciousness(e.target.value);formik.setFieldValue("LevelConsciousness",e.target.value)}} value={consciousness}>
+                        <Radio value={"A"}>A</Radio>
+                        <Radio value={"V"}>V</Radio>
+                        <Radio value={"P"}>P</Radio>
+                        <Radio value={"U"}>U</Radio>
                       </Radio.Group>
                     </div>
                   </div>
                   <Row className={"container"}>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>مخاطره راه هوایی</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("DangerousRespire",e.target.checked)}>مخاطره راه هوایی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>دیسترس تنفسی</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("RespireDistress",e.target.checked)}>دیسترس تنفسی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>سیانوز</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("Sianosis",e.target.checked)}>سیانوز</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>علائم شوک</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("Shock",e.target.checked)}> علائم شوک</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>SPO</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("SPO2",e.target.checked)}>SPO</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox>انتوباسیون</Checkbox>
+                      <Checkbox onChange={e=>formik.setFieldValue("Intubation",e.target.checked)}>انتوباسیون</Checkbox>
                     </Col>
                   </Row>
                 </fieldset>
@@ -1036,10 +1094,10 @@ const Triage = () => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>شرایط</div>
                     <div className={"grayContent"}>
-                      <Radio.Group onChange={() => {}} value={1}>
-                        <Radio value={1}>پر خطر</Radio>
-                        <Radio value={2}>لتاژی و خواب آلودگی</Radio>
-                        <Radio value={3}>دیسترس شدید</Radio>
+                      <Radio.Group onChange={(e) => {onBindStatus(e.target.value);setStatus(e.target.value)}} value={status}>
+                        <Radio value={"HighDanger"}>پر خطر</Radio>
+                        <Radio value={"Lethargy"}>لتاژی و خواب آلودگی</Radio>
+                        <Radio value={"HighDistress"}>دیسترس شدید</Radio>
                       </Radio.Group>
                     </div>
                   </div>
@@ -1074,6 +1132,8 @@ const Triage = () => {
                     <Col xs={24} md={12}>
                       <div className={"toolbar"}>
                         <Input
+                          name={"BS"}
+                          onChange={formik.handleChange}
                           prefix={
                             <span className={"grayText"}> میزان قند خون:</span>
                           }
@@ -1082,63 +1142,68 @@ const Triage = () => {
                     </Col>
                   </Row>
                   <Row gutter={[12, 12]}>
-                    <Col xs={24} md={12}>
-                      <label className={"paddingBottom"}>
-                        سابقه دارویی
-                      </label>
-                      <AutoComplete
-                        value={medicalNameSelect}
-                        onChange={(i) => setMedicalNameSelect(i)}
-                        style={{ width: "100%" }}
-                        onSelect={onSelectMedicalName}
-                        onSearch={onSearchMedicalName}
-                        placeholder="سابقه دارویی"
-                        onKeyPress={(e) => {
-                          if (e.charCode === 13 && medicalNameSelect.length > 3)
-                            onSelectMedicalName(medicalNameSelect);
-                        }}
-                      >
-                        {medicalNameOpt.map((comItem) => (
-                          <AutoComplete.Option value={comItem.Id}>
-                            {comItem.Name}
-                          </AutoComplete.Option>
-                        ))}
-                      </AutoComplete>
-                    </Col>
-                    <Col xs={24} md={12}>
+                    {/*<Col xs={24} md={12}>*/}
+                    {/*  <label className={"paddingBottom"}>*/}
+                    {/*    سابقه دارویی*/}
+                    {/*  </label>*/}
+                    {/*  <AutoComplete*/}
+                    {/*    value={medicalNameSelect}*/}
+                    {/*    onChange={(i) => setMedicalNameSelect(i)}*/}
+                    {/*    style={{ width: "100%" }}*/}
+                    {/*    onSelect={onSelectMedicalName}*/}
+                    {/*    onSearch={onSearchMedicalName}*/}
+                    {/*    placeholder="سابقه دارویی"*/}
+                    {/*    onKeyPress={(e) => {*/}
+                    {/*      if (e.charCode === 13 && medicalNameSelect.length > 3)*/}
+                    {/*        onSelectMedicalName(medicalNameSelect);*/}
+                    {/*    }}*/}
+                    {/*  >*/}
+                    {/*    {medicalNameOpt.map((comItem) => (*/}
+                    {/*      <AutoComplete.Option value={comItem.Id}>*/}
+                    {/*        {comItem.Name}*/}
+                    {/*      </AutoComplete.Option>*/}
+                    {/*    ))}*/}
+                    {/*  </AutoComplete>*/}
+                    {/*</Col>*/}
+                    <Col xs={24} md={24}>
                       <label className={"paddingBottom"}>سابقه پزشکی</label>
                       <AutoComplete
-                        value={medicalSelect}
-                        onChange={(i) => setMedicalSelect(i)}
-                        style={{ width: "100%" }}
-                        onSelect={onSelectMedical}
-                        onSearch={onSearchMedical}
-                        placeholder="جستجوی سابقه پزشکی"
+                          value={medicalSelect}
+                          onChange={(i) => setMedicalSelect(i)}
+                          style={{ width: "100%" }}
+                          onSelect={onSelectMedical}
+                          onSearch={onSearchMedical}
+                          onKeyPress={(e) => {
+                            if (e.charCode === 13 && medicalSelect.length > 3)
+                              onSelectMedical(medicalSelect);
+                          }}
+                          placeholder="جستجوی سابقه پزشکی"
                       >
                         {medicalOpt.map((comItem) => (
-                          <AutoComplete.Option value={comItem.Name}>
-                            {comItem.Name}
-                          </AutoComplete.Option>
+                            <AutoComplete.Option value={comItem.Name}>
+                              {comItem.Name}
+                            </AutoComplete.Option>
                         ))}
                       </AutoComplete>
                     </Col>
                   </Row>
                   <Row gutter={[12, 6]}>
-                    <Col xs={24} md={12}>
-                      <fieldset className={"inner"}>
-                        <legend>لیست داروها</legend>
-                        {medicalNameList.map((item) => (
-                          <Tag
-                            key={item}
-                            closable
-                            onClose={() => onDeleteAllergy(item)}
-                          >
-                            {item}
-                          </Tag>
-                        ))}
-                      </fieldset>
-                    </Col>
-                    <Col xs={24} md={12}>
+                    {/*<Col xs={24} md={12}>*/}
+                    {/*  <fieldset className={"inner"}>*/}
+                    {/*    <legend>لیست داروها</legend>*/}
+                    {/*    {medicalNameList.map((item) => (*/}
+                    {/*      <Tag*/}
+                    {/*        key={item}*/}
+                    {/*        closable*/}
+                    {/*        onClose={() => onDeleteAllergy(item)}*/}
+                    {/*      >*/}
+                    {/*        {item}*/}
+                    {/*      </Tag>*/}
+                    {/*    ))}*/}
+                    {/*  </fieldset>*/}
+                    {/*</Col>*/}
+                    <Col xs={24} md={24}>
+
                       <fieldset className={"inner"}>
                         <legend>لیست سابقه پزشکی</legend>
                         {medicalList.map((item) => (
@@ -1168,10 +1233,10 @@ const Triage = () => {
                       <div className={"grayTitle"}>
                         <div className={"grayHead"}>تعداد تسهیلات</div>
                         <div className={"grayContent"}>
-                          <Radio.Group onChange={() => {}} value={1}>
-                            <Radio value={1}>سطح سوم - دو مورد یا بیشتر</Radio>
-                            <Radio value={2}>سطح چهارم - یک مورد بیشتر</Radio>
-                            <Radio value={3}>سطح پنجم - هیچ</Radio>
+                          <Radio.Group onChange={(e) => {formik.setFieldValue("ServiceCount",e.target.value);setServiceCount(e.target.value)}} value={serviceCount}>
+                            <Radio value={3}>سطح سوم - دو مورد یا بیشتر</Radio>
+                            <Radio value={4}>سطح چهارم - یک مورد بیشتر</Radio>
+                            <Radio value={5}>سطح پنجم - هیچ</Radio>
                           </Radio.Group>
                         </div>
                       </div>
@@ -1216,7 +1281,10 @@ const Triage = () => {
                         )}
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={2}>
-                      <Button color={"green"}>نظر پزشک</Button>
+                      <Button type={"button"} color={"green"} onClick={()=>setModalVisible(true)}>نظر پزشک</Button>
+                      <Modal onCancel={()=>setModalVisible(false)} footer={null} title={"نظر پزشک"} visible={modalVisible} on>
+                        <TextArea rows={4} name={"PractitionerComment"} onChange={formik.handleChange}/>
+                      </Modal>
                     </Col>
                   </Row>
                 </fieldset>
@@ -1237,27 +1305,27 @@ const Triage = () => {
                       <Row>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"BPS"} />
+                          <Combo label={"BPS"} onChange={e=>setBPS(e)}/>
                         </Col>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"BPD"} />
+                          <Combo label={"BPD"} onChange={e=>setBPD(e)}/>
                         </Col>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"PR"} />
+                          <Combo label={"PR"} onChange={e=>setPR(e)}/>
                         </Col>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"RR"} />
+                          <Combo label={"RR"} onChange={e=>setRR(e)}/>
                         </Col>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"T"} />
+                          <Combo label={"T"} onChange={e=>setT(e)}/>
                         </Col>
                         <Col xs={12} md={4}>
                           {" "}
-                          <Combo label={"SPO2"} />
+                          <Combo label={"SPO_2"} onChange={e=>setSPO2(e)}/>
                         </Col>
                       </Row>
                     </Col>
@@ -1279,11 +1347,11 @@ const Triage = () => {
                           جدا سازی و احتیاط بیشتر کنترل عفونت
                         </div>
                         <div className={"grayContent"}>
-                          <Radio.Group onChange={() => {}} value={1}>
-                            <Radio value={1}>نیاز ندارد</Radio>
-                            <Radio value={2}>تماسی</Radio>
-                            <Radio value={3}>قطره ای</Radio>
-                            <Radio value={4}>تنفسی</Radio>
+                          <Radio.Group name={"sample"} onChange={onBindSepration} value={sepration}>
+                            <Radio value={"QuarantineNoNeed"}>نیاز ندارد</Radio>
+                            <Radio value={"QuarantineContact"}>تماسی</Radio>
+                            <Radio value={"QuarantineDrop"}>قطره ای</Radio>
+                            <Radio value={"QuarantineRespiratory"}>تنفسی</Radio>
                           </Radio.Group>
                         </div>
                       </div>
