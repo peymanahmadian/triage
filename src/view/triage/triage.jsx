@@ -174,10 +174,10 @@ const Triage = () => {
           TriageReferTo_ID: null,
           LocationId: values.LocationId,
           TriageEntryMethodId: values.TriageEntryMethodId,
-          TriageReferFromClinicId: null,
+          TriageReferFromClinicId: values.TriageReferFromClinicId,
           TriageLevel: values.TriageLevel,
-          LevelConsciousness: null,
-          IsPregnant: false,
+          LevelConsciousness: values.LevelConsciousness,
+          IsPregnant: values.IsPregnant,
           IsAccident: false,
           IsRefer24HoursAgo: false,
           IsRefer3MonthsAgo: false,
@@ -186,27 +186,27 @@ const Triage = () => {
           Encounter24HoursAgo: false,
           Encounter3MonthsAgo: false,
           DrugHistory: "",
-          Shock: false,
-          DangerousRespire: false,
-          RespireDistress: false,
-          Sianosis: false,
-          SPO2: false,
-          Intubation: false,
-          HighDanger: false,
-          Lethargy: false,
-          HighDistress: false,
+          Shock: values.Shock,
+          DangerousRespire: values.DangerousRespire,
+          RespireDistress: values.RespireDistress,
+          Sianosis: values.Sianosis,
+          SPO2: values.SPO2,
+          Intubation: values.Intubation,
+          HighDanger: values.HighDanger,
+          Lethargy: values.Lethargy,
+          HighDistress: values.HighDistress,
           ReferToDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
           TriageDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
           TriageDateStart: moment().format("YYYY-DD-MMTHH:mm:SS"),
-          ServiceCount: null,
-          PractitionerComment: "",
+          ServiceCount: values.ServiceCount,
+          PractitionerComment: values.PractitionerComment,
           Note1: null,
-          Note2: "",
-          BS: 0,
-          NationalCode: "",
-          Tel1: "",
+          Note2: values.Note2,
+          BS: values.BS,
+          NationalCode: values.NationalCode,
+          Tel1: values.Tel1,
           IsGrtReport: false,
-          IsAnonymous: true,
+          IsAnonymous: values.IsAnonymous,
           IsFormal: false,
           IsSave: true,
           CreateOn: moment().format("YYYY-DD-MMTHH:mm:SS"),
@@ -239,30 +239,33 @@ const Triage = () => {
           SevereUterineContractionsMothers: false,
           IsPrint: false,
           AmbulanceCode: values.AmbulanceCode,
-          FatherName: "",
-          ReligionId: null,
-          Address: "",
-          JobName: "",
-          TriageReferFromText: "",
+          FatherName:values.FatherName,
+          ReligionId: values.ReligionId,
+          Address: values.Address,
+          JobName: values.JobName,
+          TriageReferFromText: values.TriageReferFromText,
           Encounter24HoursNothing: values.Encounter24HoursNothing,
           Encounter24HoursThis: values.Encounter24HoursThis,
           Encounter24HoursOther: values.Encounter24HoursOther,
           Encounter24HoursOtherText: values.Encounter24HoursOtherText,
           Pain: values.Pain,
-          QuarantineNoNeed: false,
-          QuarantineContact: false,
-          QuarantineDrop: false,
-          QuarantineRespiratory: false,
-          PatientId_HIS: null,
+          QuarantineNoNeed: values.QuarantineNoNeed,
+          QuarantineContact: values.QuarantineContact,
+          QuarantineDrop: values.QuarantineDrop,
+          QuarantineRespiratory: values.QuarantineRespiratory,
+          PatientId_HIS: values.PatientId_HIS,
           AreaId: null,
           Weight: values.Weight,
           TriagePicDto: null,
-          objDictionaryList: values.objDictionaryList,
-          objTriageVital: null,
+          objDictionaryList: [...complaintList,...allergyList,...medicalList],
+          objTriageVital: {
+            BPD,BPS,PR,RR,"SPO2":SPO2,T
+          },
         },
         FieldExaminationEncounterHeaderId: null,
         MachineName: "",
         IsNotCompress: false,
+
       };
       dispatch(postTriage(param));
     },
@@ -318,16 +321,24 @@ const Triage = () => {
     }
   };
   const onSelectComplaint = (param) => {
-    debugger;
     setComplaintSelect(null);
     let convertedParam = null;
     try {
-      convertedParam = JSON.parse(param);
+      let params = JSON.parse(param);
+      convertedParam={
+        "FieldExaminationItemId": 1260,
+        "Note":params.Name,
+        "TriageDictionaryId":params.ItemDictionaryId,
+        "TypeId": 1,
+        "TriageId": 0
+      }
     } catch {
       convertedParam = {
-        Id: 0,
-        ItemDictionaryId: 0,
-        Name: param,
+        "FieldExaminationItemId": 1260,
+        "Note": param,
+        "TriageDictionaryId": 0,
+        "TypeId": 1,
+        "TriageId": 0
       };
     }
 
@@ -363,9 +374,30 @@ const Triage = () => {
       setAllergyOpt([]);
     }
   };
-  const onSelectAllergy = (i) => {
+  const onSelectAllergy = (param) => {
+    debugger;
     setAllergySelect(null);
-    let cash = [...allergyList, i];
+    let convertedParam = null;
+    try {
+      let params = JSON.parse(param);
+      convertedParam={
+        "FieldExaminationItemId": 288,
+        "Note":params.Name,
+        "TriageDictionaryId":params.ItemDictionaryId,
+        "TypeId": 2,
+        "TriageId": 0
+      }
+    } catch {
+      convertedParam = {
+        "FieldExaminationItemId": 288,
+        "Note": param,
+        "TriageDictionaryId": 0,
+        "TypeId": 2,
+        "TriageId": 0
+      };
+    }
+
+    let cash = [...allergyList, convertedParam];
     setAllergyList([...new Set(cash)]);
     setAllergyOpt([]);
   };
@@ -387,9 +419,32 @@ const Triage = () => {
       setMedicalOpt([]);
     }
   };
-  const onSelectMedical = (i) => {
+  const onSelectMedical = (param) => {
+    //
     setMedicalSelect(null);
-    let cash = [...medicalList, i];
+    let convertedParam = null;
+    try {
+      let params = JSON.parse(param);
+      convertedParam={
+        "FieldExaminationItemId": 206,
+        "Note":params.Name,
+        "TriageDictionaryId":params.ItemDictionaryId,
+        "TypeId": 3,
+        "TriageId": 0
+      }
+    } catch {
+      convertedParam = {
+        "FieldExaminationItemId": 206,
+        "Note": param,
+        "TriageDictionaryId": 0,
+        "TypeId": 3,
+        "TriageId": 0
+      };
+    }
+
+    //
+    setMedicalSelect(null);
+    let cash = [...medicalList, convertedParam];
     setMedicalList([...new Set(cash)]);
     setMedicalOpt([]);
   };
@@ -983,11 +1038,11 @@ const Triage = () => {
                         <legend>لیست شکایات</legend>
                         {complaintList.map((item) => (
                           <Tag
-                            key={item.Name}
+                            key={item.Note}
                             closable
                             onClose={() => onDeleteComplaint(item)}
                           >
-                            {item.Name}
+                            {item.Note}
                           </Tag>
                         ))}
 
@@ -1019,7 +1074,7 @@ const Triage = () => {
                         placeholder="سابقه حساسیت دارویی"
                       >
                         {allergyOpt.map((comItem) => (
-                          <AutoComplete.Option value={comItem.Name}>
+                          <AutoComplete.Option value={JSON.stringify(comItem)}>
                             {comItem.Name}
                           </AutoComplete.Option>
                         ))}
@@ -1030,11 +1085,11 @@ const Triage = () => {
                         <legend>لیست موارد حساسیت</legend>
                         {allergyList.map((item) => (
                           <Tag
-                            key={item}
+                            key={item.Note}
                             closable
                             onClose={() => onDeleteAllergy(item)}
                           >
-                            {item}
+                            {item.Note}
                           </Tag>
                         ))}
                       </fieldset>
@@ -1180,7 +1235,7 @@ const Triage = () => {
                           placeholder="جستجوی سابقه پزشکی"
                       >
                         {medicalOpt.map((comItem) => (
-                            <AutoComplete.Option value={comItem.Name}>
+                            <AutoComplete.Option value={JSON.stringify(comItem)}>
                               {comItem.Name}
                             </AutoComplete.Option>
                         ))}
@@ -1208,11 +1263,11 @@ const Triage = () => {
                         <legend>لیست سابقه پزشکی</legend>
                         {medicalList.map((item) => (
                           <Tag
-                            key={item}
+                            key={item.Note}
                             closable
                             onClose={() => onDeleteMedicalName(item)}
                           >
-                            {item}
+                            {item.Note}
                           </Tag>
                         ))}
                       </fieldset>
@@ -1360,6 +1415,8 @@ const Triage = () => {
                       <div className={"flexInput"}>
                         <Input
                           size="large"
+                          onChange={formik.handleChange}
+                          name={"PatientId_HIS"}
                           prefix={
                             <span className={"grayText"}>کد بیمار در HIS:</span>
                           }
