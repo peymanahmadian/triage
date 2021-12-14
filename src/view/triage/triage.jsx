@@ -69,7 +69,7 @@ const Triage = () => {
       .number()
       .min(1, "وارد کردن سن بیمار الزامیست")
       .required("وارد کردن سن بیمار الزامیست"),
-    Weight: yup.string().required("وارد کردن وزن بیمار الزامیست"),
+    Weight: yup.string(),
     EncounterReasonId: yup.string().required("علت مراجعه را مشخص نمایید"), //علت مراجعه
     TriageEntryMethodId: yup.string().required("نحوه ورود را مشخص نمایید"), //نحوه ورود
     TriageReferPattern_ID: yup.string().required("نحوه مراجعه را مشخص نمایید"), //نحوه مراجعه
@@ -83,7 +83,7 @@ const Triage = () => {
     TriageLevel: yup.number().min(1, "سطح تریاژ را مشخص کنید"), //سطح تریاژ
     LocationId: yup.string().required("ارجاع را مشخص نمایید"), //ارجاع به
     objDictionaryList:yup.array().min(1,"شکایت اصلی حداقل باید دارای یک مورد باشد"),
-    Pain:yup.number().min(1,"میزان درد را مشخص نمایید")
+    Pain:yup.number()
   });
   const formik = useFormik({
     initialValues: {
@@ -148,7 +148,7 @@ const Triage = () => {
     validateOnChange:false,
 
     onSubmit: (values) => {
-      debugger;
+
       let param = {
         IsInitialize: false,
         BranchId: information.BranchId,
@@ -256,10 +256,17 @@ const Triage = () => {
           PatientId_HIS: values.PatientId_HIS,
           AreaId: null,
           Weight: values.Weight,
-          TriagePicDto: null,
+          TriagePicDto: values.TriagePic_File,
           objDictionaryList: [...complaintList,...allergyList,...medicalList],
           objTriageVital: {
-            BPD,BPS,PR,RR,"SPO2":SPO2,T
+            TriageVitalId:0,
+            TriageId:0,
+            T,
+            RR,
+            BPD,
+            BPS,
+            PR,
+            "SPO2":SPO2,
           },
         },
         FieldExaminationEncounterHeaderId: null,
@@ -375,7 +382,6 @@ const Triage = () => {
     }
   };
   const onSelectAllergy = (param) => {
-    debugger;
     setAllergySelect(null);
     let convertedParam = null;
     try {
@@ -490,7 +496,7 @@ const Triage = () => {
   const [modalVisible,setModalVisible]=useState(false);
   //handle action
   const handleOption = (e) => {
-    debugger;
+
     switch (e.target.value) {
       case "Encounter24HoursNothing":
         formik.setFieldValue("Encounter24HoursNothing", true);
@@ -514,6 +520,20 @@ const Triage = () => {
         break;
     }
   };
+  const converToByteArray=(file)=>{
+
+    let reader = new FileReader();
+    reader.onload = function() {
+
+      let arrayBuffer = this.result,
+          array = new Uint8Array(arrayBuffer),
+          binaryString = String.fromCharCode.apply(null, array);
+
+      formik.setFieldValue("TriagePic_File",binaryString);
+
+    }
+    reader.readAsArrayBuffer(file);
+  }
   const [status,setStatus]=useState(null);
   const onBindStatus=(e)=>{
     formik.values.HighDanger=false;
@@ -696,12 +716,12 @@ const Triage = () => {
                       />
                     </Col>
                     <Col xs={12} md={4}>
-                      //@todo create file upload
-                      <Upload onChange={e=>{debugger}}>
-                        <Button>
-                          <UploadOutlined /> تصویر بیمار
-                        </Button>
-                      </Upload>
+                      <input type={"file"} onChange={e=>{e.target.files.length && converToByteArray(e.target.files[0])}}/>
+                      {/*<Upload  accept="image/*,.jpg" maxCount={1}>*/}
+                      {/*  <Button type={"button"}>*/}
+                      {/*    <UploadOutlined /> تصویر بیمار*/}
+                      {/*  </Button>*/}
+                      {/*</Upload>*/}
                     </Col>
                     <Col xs={24} md={5}>
                       <Input
@@ -1006,7 +1026,7 @@ const Triage = () => {
                         onSelect={onSelectComplaint}
                         onSearch={onSearchComplaint}
                         onKeyPress={(e) => {
-                          if (e.charCode === 13 && complaintSelect.length > 3)
+                          if (e.charCode === 13 && complaintSelect.length > 1)
                             onSelectComplaint(complaintSelect);
                         }}
                         placeholder="جستجوی شکایت اصلی"
@@ -1068,7 +1088,7 @@ const Triage = () => {
                         onSelect={onSelectAllergy}
                         onSearch={onSearchAllergy}
                         onKeyPress={(e) => {
-                          if (e.charCode === 13 && allergySelect.length > 3)
+                          if (e.charCode === 13 && allergySelect.length > 1)
                             onSelectAllergy(allergySelect);
                         }}
                         placeholder="سابقه حساسیت دارویی"
@@ -1229,7 +1249,7 @@ const Triage = () => {
                           onSelect={onSelectMedical}
                           onSearch={onSearchMedical}
                           onKeyPress={(e) => {
-                            if (e.charCode === 13 && medicalSelect.length > 3)
+                            if (e.charCode === 13 && medicalSelect.length > 1)
                               onSelectMedical(medicalSelect);
                           }}
                           placeholder="جستجوی سابقه پزشکی"
