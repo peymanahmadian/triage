@@ -1,0 +1,65 @@
+body{
+    overflow: auto;
+}
+.print{
+    direction: rtl;
+    background-color: white;
+    margin: 0 auto;
+    padding: 0;
+    width: 21cm;
+    height: 29.7cm;
+    padding: 0.2cm 0.2cm;
+    box-sizing: border-box;
+    .center{
+        text-align: center;
+    }
+    .right{
+        text-align: right;
+    }
+    .left{
+        text-align: left;
+    }
+    table{
+        font-size: 8pt;
+        .border{
+            padding: 4px;
+            border:1px solid gray;
+        }
+        .control{
+            display: flex;
+            align-items: center;
+            label{
+                margin: 2px;
+            }
+        }
+        th,td{
+            padding: 0 3px;
+            text-align: center;
+        }
+
+
+        width: 100%;
+        th.col_4,td.col_4{
+            width: 33.3%;
+        }
+        th.col_3,td.col_3{
+            width: 25%;
+        }
+        th.col_6,td.col_6{
+            width: 50%;
+        }
+    }
+
+}
+@media print {       
+
+}
+@page {
+    margin: 0.2cm 0.2cm;
+    size: A4;
+}
+td {
+  padding:0.1cm;
+  border: 1px solid black;
+  border-collapse: collapse;
+}

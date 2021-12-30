@@ -16,6 +16,8 @@ import ErrorBoundary from "./error/errorBoundary";
 import Navbar from "./layout/navbar";
 import Sidebar from "./layout/sidebar";
 import Triage from "./triage/triage";
+//
+import Print from "./print/print";
 const App=()=> {
     const dispatch=useDispatch();
     const {blur,open,message,loading}=useSelector(state=>state.Visual);
@@ -41,6 +43,9 @@ const App=()=> {
             dispatch(getInformation());
         }
     },[dispatch,valid])
+    if(true)
+    return <Print/>
+    else
     return (
         <ErrorBoundary>
             {loading && <Loading />}
