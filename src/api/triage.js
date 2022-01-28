@@ -25,8 +25,9 @@ const triage={
         }
     },
     postTriage:async(params)=>{
+        debugger;
         try{
-            return await axios.post(URL.saveTriage,{...params,"IsNotCompress":true},{headers:header(true)})
+            return await axios.post(URL.saveTriage,params,{headers:header(true)});
         }catch(e){
             return e;
         }

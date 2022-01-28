@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {convertNumber} from "./../../common/convert";
 import moment from "moment";
 import {
   Alert,
@@ -95,12 +96,12 @@ const Triage = () => {
       NationalCode: "",
       IsPregnant: false,
       TriagePic_File: null,
-      Tel1: null,
+      Tel1: "",
       FatherName: "",
       Weight: "",
       JobName: "",
       Address: "",
-      ReligionId: "",
+      ReligionId: 0,
       EncounterReasonId: "",
       TriageEntryMethodId: "",
       TriageReferPattern_ID: "",
@@ -127,7 +128,7 @@ const Triage = () => {
       Pain: 0,
       BS: 0,
       objDictionaryList_disease: [],
-      ServiceCount: 0,
+      ServiceCount: null,
       TriageLevel: 0,
       PractitionerComment: "",
       BPD: 0,
@@ -148,7 +149,7 @@ const Triage = () => {
     validateOnChange:false,
 
     onSubmit: (values) => {
-
+      debugger;
       let param = {
         IsInitialize: false,
         BranchId: information.BranchId,
@@ -157,6 +158,7 @@ const Triage = () => {
         TriageId: null,
         LocationIdSubmit: information.UserSettingDto.LocationId,
         LocationIdDone: information.UserSettingDto.LocationId,
+        IsNotCompress:false,
         TriageDto: {
           Triage_ID: 0,
           BranchId: information.BranchId,
@@ -165,7 +167,7 @@ const Triage = () => {
           TriageQuit_ID: 1,
           FirstName: values.FirstName,
           LastName: values.LastName,
-          Age: values.age,
+          Age:parseInt(values.age),
           IsMan: values.IsMan,
           EncounterReasonId: values.EncounterReasonId,
           TriageReferPattern_ID: values.TriageReferPattern_ID,
@@ -174,7 +176,7 @@ const Triage = () => {
           TriageReferTo_ID: null,
           LocationId: values.LocationId,
           TriageEntryMethodId: values.TriageEntryMethodId,
-          TriageReferFromClinicId: values.TriageReferFromClinicId,
+          TriageReferFromClinicId: convertNumber(values.TriageReferFromClinicId),
           TriageLevel: values.TriageLevel,
           LevelConsciousness: values.LevelConsciousness,
           IsPregnant: values.IsPregnant,
@@ -198,13 +200,13 @@ const Triage = () => {
           ReferToDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
           TriageDate: moment().format("YYYY-DD-MMTHH:mm:SS"),
           TriageDateStart: moment().format("YYYY-DD-MMTHH:mm:SS"),
-          ServiceCount: values.ServiceCount,
+          ServiceCount: values.ServiceCount ? values.ServiceCount : null,
           PractitionerComment: values.PractitionerComment,
           Note1: null,
           Note2: values.Note2,
-          BS: values.BS,
+          BS: convertNumber(values.BS),
           NationalCode: values.NationalCode,
-          Tel1: values.Tel1,
+          Tel1: values.Tel1 ? values.Tel1 : "",
           IsGrtReport: false,
           IsAnonymous: values.IsAnonymous,
           IsFormal: false,
@@ -238,9 +240,9 @@ const Triage = () => {
           FetalHeartFailure: false,
           SevereUterineContractionsMothers: false,
           IsPrint: false,
-          AmbulanceCode: values.AmbulanceCode,
+          AmbulanceCode:values.AmbulanceCode,
           FatherName:values.FatherName,
-          ReligionId: values.ReligionId,
+          ReligionId: convertNumber(values.ReligionId),
           Address: values.Address,
           JobName: values.JobName,
           TriageReferFromText: values.TriageReferFromText,
@@ -253,25 +255,24 @@ const Triage = () => {
           QuarantineContact: values.QuarantineContact,
           QuarantineDrop: values.QuarantineDrop,
           QuarantineRespiratory: values.QuarantineRespiratory,
-          PatientId_HIS: values.PatientId_HIS,
+          PatientId_HIS: convertNumber(values.PatientId_HIS),
           AreaId: null,
-          Weight: values.Weight,
+          Weight: convertNumber(values.Weight),
           TriagePicDto: values.TriagePic_File,
           objDictionaryList: [...complaintList,...allergyList,...medicalList],
           objTriageVital: {
             TriageVitalId:0,
             TriageId:0,
-            T,
-            RR,
-            BPD,
-            BPS,
-            PR,
-            "SPO2":SPO2,
+            T:convertNumber(T),
+            RR:convertNumber(RR),
+            BPD:convertNumber(BPD),
+            BPS:convertNumber(BPS),
+            PR:convertNumber(PR),
+            "SPO2":convertNumber(SPO2),
           },
         },
         FieldExaminationEncounterHeaderId: null,
-        MachineName: "",
-        IsNotCompress: false,
+        MachineName: ""
 
       };
       dispatch(postTriage(param));
@@ -312,7 +313,7 @@ const Triage = () => {
           TriageDto: null,
           FieldExaminationEncounterHeaderId: null,
           MachineName: "",
-          IsNotCompress: true,
+          IsNotCompress: false,
         })
       );
       dispatch(fillTriage());
@@ -1203,6 +1204,7 @@ const Triage = () => {
                         </div>
 
                       </div>
+                      test
                     </Col>
                     <Col xs={24} md={12}>
                       <div className={"toolbar"}>

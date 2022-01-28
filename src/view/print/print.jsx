@@ -5,23 +5,24 @@ import Header from "./header";
 const Print = (props) => {
   return (
     <div className="print">
-      <table>
+      <table className="hasBorder">
         <thead>
           <tr>
             <th>
               <div>
                 <img src={Logo} alt="" width={64} />
               </div>
-              <div className="border">
+              <div className="border small_rect">
                 <Label caption={"کد بیمار"} subtitle={"Patient ID"} />
                 <div>213S</div>
-                <Label
-                  caption={"شماره پرونده"}
-                  subtitle={"Document No"}
-                ></Label>
+
+              </div>
+              <div className="border small_rect">
+                <Label caption={"شماره پرونده"} subtitle={"Document No"}></Label>
+                <div>546546</div>
               </div>
             </th>
-            <th colSpan={4}>
+            <th colSpan={4} className="padding_20">
               <div> وزارت بهداشت،درمان و آموزش پزشکی </div>
               <div>Ministry of Health & Medical Education</div>
               <div>
@@ -35,11 +36,11 @@ const Print = (props) => {
               </div>
             </th>
             <th>
-              <div className="border">
+              <div className="border small_rect" style={{marginBottom:"10px"}}>
                 <Label caption={"کد تریاژ"} subtitle={"Triage Code"} />
                 <div>213S</div>
               </div>
-              <div className="border">
+              <div className="border small_rect">
                 <Label caption={"سطح تریاژ"} subtitle={"Triage Level"} />
                 <div>213S</div>
               </div>
@@ -48,13 +49,14 @@ const Print = (props) => {
         </thead>
         <tbody>
           <tr>
-            <td colSpan={2}>
-              <Label caption={"نام خانوادگی"} subtitle={"Family Name"} />
-              <div>قریشی</div>
+            <td colSpan={1}>
+            <Label caption={"نام"} subtitle={"Name"} />
+              <div>فرزانه السادات</div>
             </td>
             <td colSpan={2}>
-              <Label caption={"نام"} subtitle={"Name"} />
-              <div>فرزانه السادات</div>
+            <Label caption={"نام خانوادگی"} subtitle={"Family Name"} />
+              <div>قریشی</div>
+
             </td>
             <td>
               <Label caption={"جنسیت"} subtitle={"Sex"} />
@@ -67,24 +69,24 @@ const Print = (props) => {
                 <label>(‌F)</label>
               </div>
             </td>
-            <td>
+            <td colspan={2}>
               <Label caption={"تاریخ مراجعه"} subtitle={"Date of Arrival"} />
               <div>1400/06/25</div>
             </td>
           </tr>
           <tr>
-            <td>
+            <td colSpan={1}>
               <Label caption={"کدملی"} subtitle={"National Code"} />
               <div>0800532615</div>
             </td>
-            <td colSpan={2}>
+            <td colspan={1}>
               <Label caption={"تاریخ تولد"} subtitle={"Date of Birth"} />
               <div>
                 1366/08/08 - <span>44</span>
                 <span> سال </span>
               </div>
             </td>
-            <td colSpan={2}>
+            <td colspan={2}>
               <Label caption={"باردار"} subtitle={"Pregnant"} />
               <div className="control">
                 <input type="checkbox" />
@@ -95,7 +97,7 @@ const Print = (props) => {
                 <label>(no)</label>
               </div>
             </td>
-            <td>
+            <td colSpan={2}> 
               <Label caption={"ساعت مراجعه"} subtitle={"Time of Arrival"} />
               <div>16:35</div>
             </td>
@@ -516,6 +518,125 @@ const Print = (props) => {
             </td>    
           </tr>
         </tbody>
+      </table>
+      <table className="pagebreak">
+        <tr>
+          <td colspan={12}>
+            <Label value="" caption={"شرح حال و دستورات پزشک"} subtitle={"Medical history & physician Order"}/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan={6}>
+            <Label value="" caption={"تاریخ و ساعت ویزیت"} subtitle={"Visit Date & Time"}/>
+
+          </td>
+          <td colspan={6}>
+            <Label value="" caption={"نام و نام خانوادگی،مهر و امضاء پزشک"} subtitle={"Physician Name / Signature / Stamp"}/>
+
+          </td>
+        </tr>
+        <tr>
+          <td colspan={12}>
+            <Label value="" caption={"گزارش پرستاری"} subtitle={"Nursing report"}/>
+          </td>
+        </tr>
+        <tr>
+          <td colspan={6}>
+            <Label value="" caption={"تاریخ و ساعت گزارش"} subtitle={"Report Date & Time"}/>
+
+          </td>
+          <td colspan={6}>
+            <Label value="" caption={"نام و نام خانوادگی،مهر و امضاء پرستار"} subtitle={"Nurse Name / Signature / Stamp"}/>
+
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={6}>
+            <span> بیمار در تاریخ </span>
+            <span> ۱۴۰۰/۰۲/۰۲ </span>
+            <span> در ساعت </span>
+            <span> ۱۴:۰۰ </span>
+           
+          </td>
+          <td colSpan={6}>
+              <div>مرخص گردید</div>
+              <div>
+                <span>در بخش</span>
+                <span>.............</span>
+                <span>بستری گردید</span>
+              </div>
+              <div>
+                <span>به بیمارستان</span>
+                <span>.............</span>
+                <span>اعزام گردید</span>
+              </div>
+              <div>
+                <span>به بیمارستان</span>
+                <span>.............</span>
+                <span>ارجاع گردید</span>
+              </div>
+          </td>
+
+        </tr>
+        <tr>
+          <td colSpan={12}>
+            <div>اجازه معالجه و عمل جراحی</div>
+            <div>
+              <span>اینجانب</span>
+              <span>............</span>
+              <span>بیمار / ولی بیمار ساکن</span>
+              <span>............</span>
+              <span>اجازه می دهم پزشک یا پزشکان بیمارستان</span>
+              <span>............</span>
+              <span>
+
+                هر نوع معالجه و در صورت لزوم عمل جراحی و یا انتقال خون که صلاح بدانند در مورد اینجانب /بیمار اینجانب به مورد اجرا گذارند و بدینوسیله برائت پزشک و کارکنان این بیمارستان را از کلیه عوارض احتمالی اقدامات فوق که در مورد اینجانب / بیمار اینجانب انجام دهند اعلام می دارم
+              
+              </span>
+            </div>
+            <div>
+              <span>نام و امضای بیمار / همراه بیمار </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={4}>نام شاهد ۱</td>
+          <td colSpan={4}>تاریخ </td>
+          <td colSpan={4}>امضاء</td>
+        </tr>
+        <tr>
+          <td colSpan={4}>نام شاهد ۲</td>
+          <td colSpan={4}>تاریخ </td>
+          <td colSpan={4}>امضاء</td>
+        </tr>
+        <tr>
+          <td colSpan={12}>
+            <div>اجازه ترخیص با میل شخصی</div>
+            <div>
+              <span>اینجانب</span>
+              <span>............</span>
+              <span>با میل شخصی خود بر خلاف صلاحدید و توصیه پزشکان بیمارستان</span>
+              <span>............</span>
+              <span>
+                ،این مرکز را با در نظر داشتن عواقب و خطرات احتمالی ترک می نمایم و اعلام می دارم که هیچ مسئولیتی متوجه مسئولان،پرشکان و کارکنان این مرکز نخواهد بود
+              </span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={6}>امضاء بیمار</td>
+          <td colSpan={6}>امضاء یکی از بستگان درجه اول بیمار</td>
+        </tr>
+        <tr>
+          <td colSpan={4}>نام شاهد ۱</td>
+          <td colSpan={4}>تاریخ </td>
+          <td colSpan={4}>امضاء</td>
+        </tr>
+        <tr>
+          <td colSpan={4}>نام شاهد ۲</td>
+          <td colSpan={4}>تاریخ </td>
+          <td colSpan={4}>امضاء</td>
+        </tr>
       </table>
     </div>
   );
