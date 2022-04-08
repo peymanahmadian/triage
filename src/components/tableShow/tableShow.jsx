@@ -5,6 +5,12 @@ const TableShow=(props)=>{
 
     const columns = [
         {
+            title:'code',
+            dataIndex:'Triage_ID',
+            key:'Triage_ID'
+
+        },
+        {
             title: 'نوع تریاژ',
             dataIndex: 'TriageTypeName',
             key: 'TriageTypeName',
@@ -48,6 +54,10 @@ const TableShow=(props)=>{
             key: 'EncounterReasonName',
             sorter: (a, b) => (a.EncounterReasonName).charCodeAt(0) - (b.EncounterReasonName).charCodeAt(0)
         },
+        {
+            title:'چاپ',
+            render:(data)=><button onClick={()=>props.onPrint(data.Triage_ID)}>test</button>
+        }
     ];
     return(
         <Table className={"tableShow"} columns={columns} dataSource={props.data}

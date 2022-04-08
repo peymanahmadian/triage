@@ -37,13 +37,14 @@ function* fillTriageFn(action){
     }
 }
 function* postTriageFn(action){
+    debugger;
     yield put(changeLoading(true));
     try{
         const response=yield call(triage.postTriage,action.param);        
         if(response.status===200){
             yield put(changeLoading(false));
 
-            if(response.data==-1){
+            if(response.data ==-1){
                 yield put(changeMessage({show:true,content:"خطا در ثبت تریاژ لطفا مجددا تلاش کنید"}));
             }else{
                 yield put(changeMessage({show:true,content:`تریاژ با شماره ${response.data} ثبت گردید`}));

@@ -1,14 +1,36 @@
 import {useEffect,useState} from "react";
+import {useSelector} from "react-redux";
 import {Row,Col} from "antd";
 import {FilterBox, TableShow} from "../../components";
 import {useDispatch} from "react-redux";
 import {changeLoading,changeMessage} from "../../actions/visual.action";
 import patients from "./../../api/patients.api";
+import triage from "../../api/triage";
+import Print from "../print/print";
+
 const Wrapper=()=>{
     const dispatch=useDispatch();
     const [param,setParam]=useState(null);
-    const [dataSearch,setDataSearch]=useState(null);
+    const { information } = useSelector((state) => state.Account);
 
+    const [dataSearch,setDataSearch]=useState(null);
+    const [rowSelect,setRowSelect]=useState(null);
+    const [printInfo,setPrintInfo]=useState(null);
+    useEffect(()=>{
+        if(rowSelect){
+            triage.getPatientInformation({
+                id:rowSelect.toString(),
+                UserId:information.UserId.toString(),
+                BranchId:information.BranchId.toString(),
+                IsNotCompress:true
+              }).then(data=>{
+                  setPrintInfo(data.data);
+              },err=>{
+                  debugger;
+              })
+        }
+
+    },[rowSelect])
     useEffect(()=>{
         if(param){
             dispatch(changeLoading(true));
@@ -26,16 +48,24 @@ const Wrapper=()=>{
     },[param,dispatch]);
     return <>
         <div>
-            <Row>
-                <Col xs={24}>
-                    <FilterBox onSearch={(e)=>{setParam(e)}}/>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={24}>
-                    <TableShow data={dataSearch}/>
-                </Col>
-            </Row>
+            {
+                printInfo ? 
+                    <Print data={printInfo}/>
+                    :
+                    <>
+                        <Row>
+                            <Col xs={24}>
+                                <FilterBox onSearch={(e)=>{setParam(e)}}/>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={24}>
+                                <TableShow onPrint={(id)=>{setRowSelect(id)}} data={dataSearch}/>
+                            </Col>
+                        </Row>
+                    </>
+            }
+
         </div>
 
     </>

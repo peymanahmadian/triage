@@ -7,5 +7,6 @@ export const URL={
     getTriageDictionarySearchAll:`${baseUrl}/TriageSystem/api/TriageField/FillTriageDictionarySearchAllNotCompress`,
     getTriageList:`${baseUrl}/TriageSystem/api/Procedure/sp_Triage_WinTriageList`,
     getExaminationItemSearch:`${baseUrl}/TriageSystem/api/FieldExamination/FieldExaminationItemSearch`,
-    saveTriage:`${baseUrl}/TriageSystem/api/TriageField/SaveTriage`
+    saveTriage:`${baseUrl}/TriageSystem/api/TriageField/SaveTriage`,
+    getPatientsInformation:`${baseUrl}/TriageSystem/api/Report/RptInTriage`
 }

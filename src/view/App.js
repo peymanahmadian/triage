@@ -1,5 +1,5 @@
 //libs
-import {useEffect} from "react";
+import {useEffect,useState} from "react";
 import {useSelector,useDispatch} from "react-redux";
 import {Layout,notification} from "antd";
 import Login from "./layout/login";
@@ -16,11 +16,14 @@ import ErrorBoundary from "./error/errorBoundary";
 import Navbar from "./layout/navbar";
 import Sidebar from "./layout/sidebar";
 import Triage from "./triage/triage";
+//
+import Print from "./print/print";
 const App=()=> {
     const dispatch=useDispatch();
     const {blur,open,message,loading}=useSelector(state=>state.Visual);
     const {valid}=useSelector(state=>state.Account);
     const { Header, Sider, Content } = Layout;
+    const [triageID,setTriageID]=useState("3405241");
     //check token
     useEffect(()=>{
         if(localStorage.getItem("triageToken")){
@@ -61,7 +64,7 @@ const App=()=> {
                             </Layout>
                         </Layout>
                         <div className={`floatWindow ${open && `show`}`}>
-                            {open && <Triage/>}
+                            {open && <Triage triageID={triageID}/>}
                         </div>
                     </>
                     :

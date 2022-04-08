@@ -1,0 +1,132 @@
+body{
+    overflow: auto;
+
+}
+.print{
+    .null_border_top{
+        border-top:0 !important;
+    }
+    .null_border_bottom{
+        border-bottom: 0 !important;
+    }
+    .null_border_left{
+        border-left: 0 !important;
+    }
+    .null_border_right{
+        border-right: 0 !important;
+    }
+    direction: rtl;
+    background-color: white;
+    margin: 0 auto;
+    padding: 0;
+    width: 21cm;
+    height: 29.7cm;
+    padding: 0.2cm 0.2cm;
+    box-sizing: border-box;
+    .center{
+        text-align: center;
+    }
+    .right{
+        text-align: right;
+    }
+    .left{
+        text-align: left;
+    }
+    table{
+        font-size: 8pt;
+        .border{
+            padding: 4px;
+            border:1px solid gray;
+        }
+        .control{
+            display: flex;
+            align-items: center;
+            label{
+                margin: 2px;
+            }
+        }
+        th,td{
+            padding: 0 3px;
+            text-align: center;
+        }
+
+
+        width: 100%;
+        th.col_4,td.col_4{
+            width: 33.3%;
+        }
+        th.col_3,td.col_3{
+            width: 25%;
+        }
+        th.col_6,td.col_6{
+            width: 50%;
+        }
+    }
+    th.padding_20{
+        padding: 0 20px;
+    }
+    .small_rect{
+        padding: 0 2px;
+        font-size: 10px;
+    }
+    .hasBorder{
+        tr,td{
+            border:1px solid gray;
+            border-collapse: collapse;
+        }
+    }
+
+}
+.no_border_bottom{
+    border-bottom: 0 !important;
+    td{
+        border-bottom: 0 !important;
+    }
+}
+.no_border_top{
+    border-top: 0 !important;
+    td{
+        border-top: 0 !important;
+    }
+}
+.no_border_vertical{
+    border-left: 0 !important;
+    border-right: 0 !important;
+}
+@media print {       
+    .ant-layout-sider.ant-layout-sider-dark.side{
+        display: none;
+    }
+    .ant-layout-header.header{
+        display: none;
+    }
+}
+@page {
+    margin: 0.2cm 0.2cm;
+    size: A4;
+}
+@media print {
+    body{
+        max-height: none !important;
+        overflow: visible !important;
+    }
+    body .body{
+        height: auto !important;
+        padding: 2px !important;
+        display: block !important;
+    
+    }
+    .ant-layout.ant-layout-has-sider > .ant-layout-content{
+        overflow: visible;
+        height: auto;
+        margin:auto;
+    }
+    .print{
+        table{
+            page-break-after: always;
+        }
+
+    }
+
+
+}
