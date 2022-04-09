@@ -1,4 +1,5 @@
 import {Table} from "antd";
+import {Button} from "../../components";
 import Expand from "./expand";
 import "./tableShow.scss";
 const TableShow=(props)=>{
@@ -56,7 +57,7 @@ const TableShow=(props)=>{
         },
         {
             title:'چاپ',
-            render:(data)=><button onClick={()=>props.onPrint(data.Triage_ID)}>test</button>
+            render:(data)=><Button onClick={()=>props.onPrint(data.Triage_ID)}>چاپ</Button>
         }
     ];
     return(

@@ -50,7 +50,7 @@ const Wrapper=()=>{
         <div>
             {
                 printInfo ? 
-                    <Print data={printInfo}/>
+                    <Print data={printInfo} onClose={()=>setPrintInfo(null)}/>
                     :
                     <>
                         <Row>

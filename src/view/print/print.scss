@@ -93,6 +93,20 @@ body{
     border-left: 0 !important;
     border-right: 0 !important;
 }
+.gap{
+    height: 100pt;
+}
+.miniGap{
+    height: 40pt;
+}
+.printNavbar{
+    display: flex;
+    padding: 4px;
+    background-color: gray;
+    margin-bottom: 8px;
+    justify-content: space-between;
+    border-radius: 6px;
+}
 @media print {       
     .ant-layout-sider.ant-layout-sider-dark.side{
         display: none;
@@ -106,20 +120,40 @@ body{
     size: A4;
 }
 @media print {
-    body{
-        max-height: none !important;
-        overflow: visible !important;
-    }
-    body .body{
-        height: auto !important;
-        padding: 2px !important;
-        display: block !important;
+    // .ant-layout{
+    //     display: block !important;
+    //     flex-direction: unset !important;
+    //     flex: none !important;
+    // }
+    // .ant-layout.ant-layout-rtl.layout{
+    //     display: block !important;
+    // }
+    // .ant-layout.ant-layout-has-sider.ant-layout-rtl.body{
+    //     display: block !important;
+    //     flex-direction:unset !important;
+    //     padding: 0 !important;
+
+    // }
+    // body{
+    //     max-height: none !important;
+    //     overflow: visible !important;
+    // }
+    // body .body{
+    //     height: auto !important;
+    //     padding: 2px !important;
+    //     display: block !important;
     
+    // }
+    // .ant-layout.ant-layout-has-sider > .ant-layout-content{
+    //     overflow: visible;
+    //     height: auto;
+    //     margin:auto;
+    // }
+    .ant-layout-rtl{
+        direction: ltr !important;
     }
     .ant-layout.ant-layout-has-sider > .ant-layout-content{
         overflow: visible;
-        height: auto;
-        margin:auto;
     }
     .print{
         table{

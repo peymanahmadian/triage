@@ -2,11 +2,16 @@ import "./print.scss";
 import Logo from "./../../../src/assets/images/logo.jpg";
 import Label from "./Label";
 import Header from "./header";
+import {Button} from "./../../components";
 const printTag=document.getElementById("print");
 const Print = (props) => {
   const {data}=props;
   return (
     <div className="print">
+      <div className="printNavbar">
+        <Button onClick={()=>window.print()}>چاپ گزارش</Button>
+        <Button color="red" onClick={props.onClose}> بستن گزارش </Button>
+      </div>
       <table className="hasBorder">
         <thead>
           <tr style={{border:0,marginBottom:"4px"}}>
@@ -521,28 +526,31 @@ const Print = (props) => {
           </tr>
         </tbody>
       </table>
-      <table className="pagebreak">
-        <tr>
+      <table className="pagebreak hasBorder">
+        <tr className="no_border_bottom">
           <td colspan={12}>
             <Label value="" caption={"شرح حال و دستورات پزشک"} subtitle={"Medical history & physician Order"}/>
+            <div className="gap"></div>
           </td>
+         
         </tr>
-        <tr>
+        <tr className="no_border_top">
           <td colspan={6}>
             <Label value="" caption={"تاریخ و ساعت ویزیت"} subtitle={"Visit Date & Time"}/>
 
           </td>
           <td colspan={6}>
             <Label value="" caption={"نام و نام خانوادگی،مهر و امضاء پزشک"} subtitle={"Physician Name / Signature / Stamp"}/>
-
+            
           </td>
         </tr>
-        <tr>
+        <tr className="no_border_bottom">
           <td colspan={12}>
             <Label value="" caption={"گزارش پرستاری"} subtitle={"Nursing report"}/>
+            <div className="gap"></div>
           </td>
         </tr>
-        <tr>
+        <tr className="no_border_top">
           <td colspan={6}>
             <Label value="" caption={"تاریخ و ساعت گزارش"} subtitle={"Report Date & Time"}/>
 
@@ -602,14 +610,14 @@ const Print = (props) => {
           </td>
         </tr>
         <tr>
-          <td colSpan={4}>نام شاهد ۱</td>
-          <td colSpan={4}>تاریخ </td>
-          <td colSpan={4}>امضاء</td>
+          <td colSpan={4}>نام شاهد ۱ <div className="miniGap"/></td>
+          <td colSpan={4}>تاریخ <div className="miniGap"/></td>
+          <td colSpan={4}>امضاء <div className="miniGap"/></td>
         </tr>
         <tr>
-          <td colSpan={4}>نام شاهد ۲</td>
-          <td colSpan={4}>تاریخ </td>
-          <td colSpan={4}>امضاء</td>
+          <td colSpan={4}>نام شاهد ۲ <div className="miniGap"/></td>
+          <td colSpan={4}>تاریخ <div className="miniGap"/></td>
+          <td colSpan={4}>امضاء <div className="miniGap"/></td>
         </tr>
         <tr>
           <td colSpan={12}>
@@ -626,18 +634,18 @@ const Print = (props) => {
           </td>
         </tr>
         <tr>
-          <td colSpan={6}>امضاء بیمار</td>
-          <td colSpan={6}>امضاء یکی از بستگان درجه اول بیمار</td>
+          <td colSpan={6}>امضاء بیمار <div className="miniGap"/></td>
+          <td colSpan={6}>امضاء یکی از بستگان درجه اول بیمار <div className="miniGap"/></td>
         </tr>
         <tr>
-          <td colSpan={4}>نام شاهد ۱</td>
-          <td colSpan={4}>تاریخ </td>
-          <td colSpan={4}>امضاء</td>
+          <td colSpan={4}>نام شاهد ۱ <div className="miniGap"/></td>
+          <td colSpan={4}>تاریخ <div className="miniGap"/></td>
+          <td colSpan={4}>امضاء <div className="miniGap"/></td>
         </tr>
         <tr>
-          <td colSpan={4}>نام شاهد ۲</td>
-          <td colSpan={4}>تاریخ </td>
-          <td colSpan={4}>امضاء</td>
+          <td colSpan={4}>نام شاهد ۲ <div className="miniGap"/></td>
+          <td colSpan={4}>تاریخ <div className="miniGap"/></td>
+          <td colSpan={4}>امضاء <div className="miniGap"/></td>
         </tr>
       </table>
     </div>
