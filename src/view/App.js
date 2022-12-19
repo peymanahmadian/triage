@@ -1,10 +1,11 @@
 //libs
-import {useEffect,useState} from "react";
-import {useSelector,useDispatch} from "react-redux";
-import {Layout,notification} from "antd";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Layout, notification } from "antd";
 import Login from "./layout/login";
-import {getInformation,valid as validAction} from "./../actions/account.action";
-import {Loading} from "./../components";
+import { getInformation, valid as validAction } from "./../actions/account.action";
+import { Loading } from "./../components";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 //import global antd css
 import "antd/dist/antd.css";
 //init global css
@@ -18,35 +19,42 @@ import Sidebar from "./layout/sidebar";
 import Triage from "./triage/triage";
 //
 import Print from "./print/print";
-const App=()=> {
-    const dispatch=useDispatch();
-    const {blur,open,message,loading}=useSelector(state=>state.Visual);
-    const {valid}=useSelector(state=>state.Account);
+const App = () => {
+    const dispatch = useDispatch();
+    const { blur, open, message, loading } = useSelector(state => state.Visual);
+    const { valid } = useSelector(state => state.Account);
     const { Header, Sider, Content } = Layout;
-    const [triageID,setTriageID]=useState("3405241");
+    const [triageID, setTriageID] = useState("3405241");
     //check token
-    useEffect(()=>{
-        if(localStorage.getItem("triageToken")){
+    useEffect(() => {
+        if (localStorage.getItem("triageToken")) {
             dispatch(validAction(true))
         }
-    },[dispatch])
+    }, [dispatch])
     //check message show
-    useEffect(()=>{
-        if(message.show){
+    useEffect(() => {
+        if (message.show) {
             notification.info({
-                description:message.content
+                description: message.content
             });
         }
-    },[message])
+    }, [message])
     //check token
-    useEffect(()=>{
-        if(valid){
+    useEffect(() => {
+        if (valid) {
             dispatch(getInformation());
         }
-    },[dispatch,valid])
+    }, [dispatch, valid])
     return (
         <ErrorBoundary>
-            {loading && <Loading />}
+            <BrowserRouter>
+                <Switch>
+                    <Route path={"/"}>
+
+                    </Route>
+                </Switch>
+            </BrowserRouter>
+            {/* {loading && <Loading />}
             {
                 valid?
                     <>
@@ -69,7 +77,7 @@ const App=()=> {
                     </>
                     :
                     <Login/>
-            }
+            } */}
 
         </ErrorBoundary>
     );
