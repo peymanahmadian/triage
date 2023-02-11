@@ -2,15 +2,18 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Layout, notification } from "antd";
+
+
 import Login from "./layout/login";
 import { getInformation, valid as validAction } from "./../actions/account.action";
-import { Loading } from "./../components";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 //import global antd css
 import "antd/dist/antd.css";
 //init global css
 import "../assets/styles/global.scss";
 //import component
+//import pages
+import Home from "./home/Home";
 //@todo create golbal reducer for authentication
 import Wrapper from "./layout/wrapper";
 import ErrorBoundary from "./error/errorBoundary";
@@ -19,8 +22,10 @@ import Sidebar from "./layout/sidebar";
 import Triage from "./triage/triage";
 //
 import Print from "./print/print";
+import { Loading } from "../components";
 const App = () => {
     const dispatch = useDispatch();
+
     const { blur, open, message, loading } = useSelector(state => state.Visual);
     const { valid } = useSelector(state => state.Account);
     const { Header, Sider, Content } = Layout;
@@ -44,40 +49,45 @@ const App = () => {
         if (valid) {
             dispatch(getInformation());
         }
-    }, [dispatch, valid])
+    }, [dispatch, valid]);
+
     return (
         <ErrorBoundary>
             <BrowserRouter>
-                <Switch>
-                    <Route path={"/"}>
+                {loading && <Loading />}
 
-                    </Route>
-                </Switch>
-            </BrowserRouter>
-            {/* {loading && <Loading />}
-            {
-                valid?
-                    <>
-                        <Layout className={"layout"}>
-                            <Header className={`header ${blur&&"blur"}`}>
-                                <Navbar/>
+                {
+                    valid ?
+                        <Layout className="layout">
+                            <Header className={`header ${blur && "blur"}`}>
+                                <Navbar />
                             </Header>
                             <Layout className={"body"}>
-                                <Sider className={`side ${blur&&"blur"}`}>
-                                    <Sidebar/>
+                                <Sider className={`side ${blur && "blur"}`}>
+                                    <Sidebar />
                                 </Sider>
                                 <Content className={"content"}>
-                                    <Wrapper/>
+                                    <Switch>
+                                        <Route path={"/"} exact>
+                                            <Home />
+                                        </Route>
+                                        <Route path={"/triage"} exact>
+                                            <Triage />
+                                        </Route>
+                                    </Switch>
                                 </Content>
                             </Layout>
+
+
                         </Layout>
-                        <div className={`floatWindow ${open && `show`}`}>
-                            {open && <Triage triageID={triageID}/>}
-                        </div>
-                    </>
-                    :
-                    <Login/>
-            } */}
+
+                        :
+                        <Login />
+                }
+
+            </BrowserRouter>
+
+
 
         </ErrorBoundary>
     );

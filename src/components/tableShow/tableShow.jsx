@@ -1,14 +1,14 @@
-import {Table} from "antd";
-import {Button} from "../../components";
+import { Table } from "antd";
+import { Button } from "../../components";
 import Expand from "./expand";
 import "./tableShow.scss";
-const TableShow=(props)=>{
+const TableShow = (props) => {
 
     const columns = [
         {
-            title:'code',
-            dataIndex:'Triage_ID',
-            key:'Triage_ID'
+            title: 'کد',
+            dataIndex: 'Triage_ID',
+            key: 'Triage_ID'
 
         },
         {
@@ -56,15 +56,16 @@ const TableShow=(props)=>{
             sorter: (a, b) => (a.EncounterReasonName).charCodeAt(0) - (b.EncounterReasonName).charCodeAt(0)
         },
         {
-            title:'چاپ',
-            render:(data)=><Button onClick={()=>props.onPrint(data.Triage_ID)}>چاپ</Button>
+            title: 'چاپ',
+            render: (data) => <Button onClick={() => props.onPrint(data.Triage_ID)}>چاپ</Button>
         }
     ];
-    return(
+    return (
         <Table className={"tableShow"} columns={columns} dataSource={props.data}
-           expandable={{
-               expandedRowRender: record => <Expand record={record}/>,
-           }}
+            expandable={{
+                expandedRowRender: record => <Expand record={record} />,
+            }}
+
         />
     )
 }

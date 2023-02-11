@@ -1,14 +1,14 @@
-import {useState} from "react";
-import {Row, Col,Select, Input, Checkbox,Button} from "antd";
-import {useSelector} from "react-redux";
+import { useState } from "react";
+import { Row, Col, Select, Input, Checkbox, Button } from "antd";
+import { useSelector } from "react-redux";
 import moment from "moment-jalaali";
 import DatePicker from "react-datepicker2";
 import "./filterBox.scss";
-const FilterBox=(props)=>{
-    const [fromDate,setFromDate]=useState(null);
-    const [toDate,setToDate]=useState(null);
-    const {information}=useSelector(state=>state.Account);
-    const onClear=()=>{
+const FilterBox = (props) => {
+    const [fromDate, setFromDate] = useState(moment().format("YYYY-MM-DDTHH:mm:SS"));
+    const [toDate, setToDate] = useState(moment().format("YYYY-MM-DDTHH:mm:SS"));
+    const { information } = useSelector(state => state.Account);
+    const onClear = () => {
         setToDate(null);
         setFromDate(null);
         props.onSearch({
@@ -26,7 +26,7 @@ const FilterBox=(props)=>{
             "IsNotCompress": true
         })
     }
-    const onSearch=()=>{
+    const onSearch = () => {
         props.onSearch({
             "BranchId": information.BranchId,
             "LocationId": null,
@@ -43,24 +43,24 @@ const FilterBox=(props)=>{
         })
     }
 
-    return(<Row className={"filterBox"}>
+    return (<Row className={"filterBox"}>
         <Col xs={24} md={24} lg={24}>
-            <Row gutter={[4,4]}>
-                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"نام بیمار"}/></Col>
-                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"نام خانوادگی بیمار"}/></Col>
-                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"کد تریاژ"}/></Col>
+            <Row gutter={[4, 4]}>
+                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"نام بیمار"} /></Col>
+                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"نام خانوادگی بیمار"} /></Col>
+                <Col xs={12} md={6}><Input disabled={true} size={"large"} placeholder={"کد تریاژ"} /></Col>
                 <Col xs={12} md={6}>
                     <Select size={"large"} disabled={true} className={"full"} placeholder={"نوع تریاژ"}>
                         <Select.Option>مثال</Select.Option>
                     </Select>
                 </Col>
             </Row>
-            <Row gutter={[4,4]}>
+            <Row gutter={[4, 4]}>
                 <Col xs={12} md={6}>
-                    <DatePicker timePicker={true}  onChange={e=>{let value=moment(e).format("YYYY-MM-DDTHH:mm:SS");setFromDate(value)}}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"از تاریخ"} isGregorian={false}/>
+                    <DatePicker timePicker={true} value={fromDate && moment(fromDate, "YYYY-MM-DDTHH:mm:SS")} onChange={e => { let value = moment(e).format("YYYY-MM-DDTHH:mm:SS"); setFromDate(value) }} className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"از تاریخ"} isGregorian={false} />
                 </Col>
                 <Col xs={12} md={6}>
-                    <DatePicker timePicker={true}  onChange={e=>{setToDate(moment(e).format("YYYY-MM-DDTHH:mm:SS"))}}  className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"تا تاریخ"} isGregorian={false}/>
+                    <DatePicker timePicker={true} value={toDate && moment(toDate, "YYYY-MM-DDTHH:mm:SS")} onChange={e => { setToDate(moment(e).format("YYYY-MM-DDTHH:mm:SS")) }} className={"full datepicker"} inputFormat={"YYYY-MM-DD"} placeholder={"تا تاریخ"} isGregorian={false} />
                 </Col>
                 {/*<Col xs={12} md={6}>*/}
                 {/*    <Select size={"large"} className={"full"} placeholder={"مکان ارجاع"}>*/}
@@ -68,8 +68,8 @@ const FilterBox=(props)=>{
                 {/*    </Select>*/}
                 {/*</Col>*/}
                 <Col xs={12} md={4} className={"paddingTop"}><Checkbox disabled={true}>پذیرش شده</Checkbox></Col>
-                <Col xs={12} md={4} ><Button  block size={"large"} onClick={()=>onClear()}>نمایش همه</Button></Col>
-                <Col xs={12} md={4} ><Button type="primary" block size={"large"} onClick={()=>onSearch()}>جستجو</Button></Col>
+                <Col xs={12} md={4} ><Button block size={"large"} onClick={() => onClear()}>نمایش همه</Button></Col>
+                <Col xs={12} md={4} ><Button type="primary" block size={"large"} onClick={() => onSearch()}>جستجو</Button></Col>
 
             </Row>
         </Col>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {convertNumber} from "./../../common/convert";
+import { convertNumber } from "./../../common/convert";
 import {
   Alert,
   Layout,
@@ -52,7 +52,7 @@ const Triage = (props) => {
   const [complaintSelect, setComplaintSelect] = useState(null);
   const [complaintList, setComplaintList] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     let model = complaintList.map((item) => ({
       FieldExaminationItemId: item.Id,
       Note: item.Name,
@@ -60,8 +60,8 @@ const Triage = (props) => {
       TypeId: 1,
       TriageId: 0,
     }));
-    formik.setFieldValue("objDictionaryList",model);
-  },[complaintList]);
+    formik.setFieldValue("objDictionaryList", model);
+  }, [complaintList]);
   const validationSchema = yup.object({
     IsMan: yup.boolean().required(),
     FirstName: yup.string().required("وارد کردن نام الزامیست"),
@@ -83,14 +83,14 @@ const Triage = (props) => {
         : yup.string(),
     TriageLevel: yup.number().min(1, "سطح تریاژ را مشخص کنید"), //سطح تریاژ
     LocationId: yup.string().required("ارجاع را مشخص نمایید"), //ارجاع به
-    objDictionaryList:yup.array().min(1,"شکایت اصلی حداقل باید دارای یک مورد باشد"),
-    Pain:yup.number()
+    objDictionaryList: yup.array().min(1, "شکایت اصلی حداقل باید دارای یک مورد باشد"),
+    Pain: yup.number()
   });
   const formik = useFormik({
     initialValues: {
       IsAnonymous: false,
       IsMan: true,
-      FirstName: "امین",
+      FirstName: "",
       LastName: "",
       age: 0,
       NationalCode: "",
@@ -145,11 +145,11 @@ const Triage = (props) => {
       LocationId: ""
     },
     validationSchema: validationSchema,
-    validateOnBlur:true,
-    validateOnChange:false,
+    validateOnBlur: true,
+    validateOnChange: false,
 
     onSubmit: (values) => {
-      let timeNow=new Date().toISOString();
+      let timeNow = new Date().toISOString();
       let param = {
         IsInitialize: false,
         BranchId: information.BranchId,
@@ -158,7 +158,7 @@ const Triage = (props) => {
         TriageId: null,
         LocationIdSubmit: information.UserSettingDto.LocationId,
         LocationIdDone: information.UserSettingDto.LocationId,
-        IsNotCompress:false,
+        IsNotCompress: false,
         TriageDto: {
           Triage_ID: 0,
           BranchId: information.BranchId,
@@ -167,7 +167,7 @@ const Triage = (props) => {
           TriageQuit_ID: 1,
           FirstName: values.FirstName,
           LastName: values.LastName,
-          Age:parseInt(values.age),
+          Age: parseInt(values.age),
           IsMan: values.IsMan,
           EncounterReasonId: values.EncounterReasonId,
           TriageReferPattern_ID: values.TriageReferPattern_ID,
@@ -240,8 +240,8 @@ const Triage = (props) => {
           FetalHeartFailure: false,
           SevereUterineContractionsMothers: false,
           IsPrint: false,
-          AmbulanceCode:values.AmbulanceCode,
-          FatherName:values.FatherName,
+          AmbulanceCode: values.AmbulanceCode,
+          FatherName: values.FatherName,
           ReligionId: values.ReligionId ? convertNumber(values.ReligionId) : null,
           Address: values.Address,
           JobName: values.JobName,
@@ -259,16 +259,16 @@ const Triage = (props) => {
           AreaId: null,
           Weight: convertNumber(values.Weight),
           TriagePicDto: values.TriagePic_File,
-          objDictionaryList: [...complaintList,...allergyList,...medicalList],
+          objDictionaryList: [...complaintList, ...allergyList, ...medicalList],
           objTriageVital: {
-            TriageVitalId:0,
-            TriageId:0,
-            T:convertNumber(T),
-            RR:convertNumber(RR),
-            BPD:convertNumber(BPD),
-            BPS:convertNumber(BPS),
-            PR:convertNumber(PR),
-            "SPO2":convertNumber(SPO2),
+            TriageVitalId: 0,
+            TriageId: 0,
+            T: convertNumber(T),
+            RR: convertNumber(RR),
+            BPD: convertNumber(BPD),
+            BPS: convertNumber(BPS),
+            PR: convertNumber(PR),
+            "SPO2": convertNumber(SPO2state),
           },
         },
         FieldExaminationEncounterHeaderId: null,
@@ -298,7 +298,7 @@ const Triage = (props) => {
       formik.setFieldValue("IsPregnant", false);
       setHiddenIsPregnant(false);
     }
-  }, [formik.values.IsAnonymous,formik.values.IsMan]);
+  }, [formik.values.IsAnonymous, formik.values.IsMan]);
   useEffect(() => {
     if (information) {
       dispatch(
@@ -333,10 +333,10 @@ const Triage = (props) => {
     let convertedParam = null;
     try {
       let params = JSON.parse(param);
-      convertedParam={
+      convertedParam = {
         "FieldExaminationItemId": 1260,
-        "Note":params.Name,
-        "TriageDictionaryId":params.ItemDictionaryId,
+        "Note": params.Name,
+        "TriageDictionaryId": params.ItemDictionaryId,
         "TypeId": 1,
         "TriageId": 0
       }
@@ -364,7 +364,7 @@ const Triage = (props) => {
   const [allergyOpt, setAllergyOpt] = useState([]);
   const [allergySelect, setAllergySelect] = useState(null);
   const [allergyList, setAllergyList] = useState([]);
-  useEffect(()=>{
+  useEffect(() => {
     let model = allergyList.map((item) => ({
       FieldExaminationItemId: item.Id,
       Note: item.Name,
@@ -372,8 +372,8 @@ const Triage = (props) => {
       TypeId: 2,
       TriageId: 0,
     }));
-    formik.setFieldValue("objDictionaryList_allergy",model);
-  },[allergyList]);
+    formik.setFieldValue("objDictionaryList_allergy", model);
+  }, [allergyList]);
   const onSearchAllergy = (text) => {
     if (text.length > 2) {
       let cash = allergy.filter((item) => item.Name.indexOf(text) > -1);
@@ -387,10 +387,10 @@ const Triage = (props) => {
     let convertedParam = null;
     try {
       let params = JSON.parse(param);
-      convertedParam={
+      convertedParam = {
         "FieldExaminationItemId": 288,
-        "Note":params.Name,
-        "TriageDictionaryId":params.ItemDictionaryId,
+        "Note": params.Name,
+        "TriageDictionaryId": params.ItemDictionaryId,
         "TypeId": 2,
         "TriageId": 0
       }
@@ -432,10 +432,10 @@ const Triage = (props) => {
     let convertedParam = null;
     try {
       let params = JSON.parse(param);
-      convertedParam={
+      convertedParam = {
         "FieldExaminationItemId": 206,
-        "Note":params.Name,
-        "TriageDictionaryId":params.ItemDictionaryId,
+        "Note": params.Name,
+        "TriageDictionaryId": params.ItemDictionaryId,
         "TypeId": 3,
         "TriageId": 0
       }
@@ -492,9 +492,9 @@ const Triage = (props) => {
     setMedicalList(cash);
   };
   //serviceCount
-  const [serviceCount,setServiceCount]=useState(null);
+  const [serviceCount, setServiceCount] = useState(null);
   //handle modal
-  const [modalVisible,setModalVisible]=useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   //handle action
   const handleOption = (e) => {
 
@@ -521,49 +521,50 @@ const Triage = (props) => {
         break;
     }
   };
-  const converToByteArray=(file)=>{
+  const converToByteArray = (file) => {
 
     let reader = new FileReader();
-    reader.onload = function() {
+    reader.onload = function () {
 
       let arrayBuffer = this.result,
-          array = new Uint8Array(arrayBuffer),
-          binaryString = String.fromCharCode.apply(null, array);
+        array = new Uint8Array(arrayBuffer),
+        binaryString = String.fromCharCode.apply(null, array);
 
-      formik.setFieldValue("TriagePic_File",binaryString);
+      formik.setFieldValue("TriagePic_File", binaryString);
 
     }
     reader.readAsArrayBuffer(file);
   }
-  const [status,setStatus]=useState(null);
-  const onBindStatus=(e)=>{
-    formik.values.HighDanger=false;
-    formik.values.Lethargy=false;
-    formik.values.HighDistress=false;
-    formik.setFieldValue(e,true);
+  const [status, setStatus] = useState(null);
+  const onBindStatus = (e) => {
+    formik.values.HighDanger = false;
+    formik.values.Lethargy = false;
+    formik.values.HighDistress = false;
+    formik.setFieldValue(e, true);
   }
-  const [consciousness,setConsciousness]=useState(null);
-  const [sepration,setSepration]=useState(null);
-  const onBindSepration=(e)=>{
-    formik.values.QuarantineContact=false;
-    formik.values.QuarantineRespiratory=false;
-    formik.values.QuarantineDrop=false;
-    formik.values.QuarantineNoNeed=false;
+  const [consciousness, setConsciousness] = useState(null);
+  const [sepration, setSepration] = useState(null);
+  const onBindSepration = (e) => {
+    formik.values.QuarantineContact = false;
+    formik.values.QuarantineRespiratory = false;
+    formik.values.QuarantineDrop = false;
+    formik.values.QuarantineNoNeed = false;
     setSepration(e.target.value);
-    formik.setFieldValue(e.target.value,true);
+    formik.setFieldValue(e.target.value, true);
   }
-  const [BPD,setBPD]=useState(0);
-  const [BPS,setBPS]=useState(0);
-  const [PR,setPR]=useState(0);
-  const [RR,setRR]=useState(0);
-  const [SPO2,setSPO2]=useState(0);
-  const [T,setT]=useState(0);
+  console.log("test")
+  const [BPD, setBPD] = useState(0);
+  const [BPS, setBPS] = useState(0);
+  const [PR, setPR] = useState(0);
+  const [RR, setRR] = useState(0);
+  const [SPO2state, setSPO2state] = useState(0);
+  const [T, setT] = useState(0);
 
   return (
     <Layout className={"layout triage"}>
       <Layout className={"body"}>
         <Layout.Sider className={"side"}>
-          <SidebarTriage />
+          <SidebarTriage onNewTriage={() => formik.resetForm()} />
         </Layout.Sider>
 
         <Layout.Content className={"content"}>
@@ -617,7 +618,7 @@ const Triage = (props) => {
               </div>
             </Col>
           </Row>
-          <form onSubmit={formik.handleSubmit} onKeyPress={e => {if (e.key === 'Enter') e.preventDefault()}}>
+          <form onSubmit={formik.handleSubmit} onKeyPress={e => { if (e.key === 'Enter') e.preventDefault() }}>
             <Row>
               <Col xs={24} md={24}>
                 <fieldset>
@@ -657,7 +658,7 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={5}>
                       <Input
-                        className={`${formik.touched.FirstName && Boolean(formik.errors.FirstName) && "error" } requried`}
+                        className={`${formik.touched.FirstName && Boolean(formik.errors.FirstName) && "error"} requried`}
                         disabled={active}
                         value={formik.values.FirstName}
                         name={"FirstName"}
@@ -675,12 +676,12 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={7}>
                       <Input
-                        className={`${formik.touched.LastName && Boolean(formik.errors.LastName) && "error" } requried`}
+                        className={`${formik.touched.LastName && Boolean(formik.errors.LastName) && "error"} requried`}
                         disabled={active}
                         value={formik.values.LastName}
                         name={"LastName"}
                         onChange={formik.handleChange}
-                        
+
                         size={"large"}
                         placeholder={"نام خانوادگی"}
                       />
@@ -694,7 +695,7 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={6}>
                       <AgeInput
-                        className={`${formik.touched.age && Boolean(formik.errors.age) && "error" } requried`}
+                        className={`${formik.touched.age && Boolean(formik.errors.age) && "error"} requried`}
                         onChange={(e) => formik.setFieldValue("age", e)}
                       />
                       {formik.touched.age && formik.errors.age && (
@@ -717,7 +718,7 @@ const Triage = (props) => {
                       />
                     </Col>
                     <Col xs={12} md={4}>
-                      <input type={"file"} onChange={e=>{e.target.files.length && converToByteArray(e.target.files[0])}}/>
+                      <input type={"file"} onChange={e => { e.target.files.length && converToByteArray(e.target.files[0]) }} />
                       {/*<Upload  accept="image/*,.jpg" maxCount={1}>*/}
                       {/*  <Button type={"button"}>*/}
                       {/*    <UploadOutlined /> تصویر بیمار*/}
@@ -744,7 +745,7 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={5}>
                       <Input
-                        className={`${formik.touched.Weight && Boolean(formik.errors.Weight) && "error" } requried`}
+                        className={`${formik.touched.Weight && Boolean(formik.errors.Weight) && "error"} requried`}
 
                         value={formik.values.Weight}
                         name={"Weight"}
@@ -799,17 +800,17 @@ const Triage = (props) => {
                         size={"large"}
                         className={"full"}
                         placeholder={"تابعیت"}
-                        onChange={e=>formik.setFieldValue("ReligionId",e)}
+                        onChange={e => formik.setFieldValue("ReligionId", e)}
                       >
                         {information &&
-                        information.ReligionsDto.map((item) => (
+                          information.ReligionsDto.map((item) => (
                             <Select.Option
-                                value={item.ReligionId}
-                                key={item.ReligionId}
+                              value={item.ReligionId}
+                              key={item.ReligionId}
                             >
                               {item.ReligionName}
                             </Select.Option>
-                        ))}
+                          ))}
                       </Select>
                     </Col>
                   </Row>
@@ -826,11 +827,10 @@ const Triage = (props) => {
                   <Row gutter={[6, 4]}>
                     <Col xs={12} md={7}>
                       <Select
-                        className={`full requried ${
-                          formik.touched.EncounterReasonId &&
+                        className={`full requried ${formik.touched.EncounterReasonId &&
                           Boolean(formik.errors.EncounterReasonId) &&
                           "error"
-                        }`}
+                          }`}
                         name={"EncounterReasonId"}
                         onChange={(e) => {
                           formik.setFieldValue("EncounterReasonId", e);
@@ -861,11 +861,10 @@ const Triage = (props) => {
                     <Col xs={12} md={7}>
                       <Select
                         name={"TriageEntryMethodId"}
-                        className={`full requried ${
-                          formik.touched.TriageEntryMethodId &&
+                        className={`full requried ${formik.touched.TriageEntryMethodId &&
                           Boolean(formik.errors.TriageEntryMethodId) &&
                           "error"
-                        }`}
+                          }`}
                         onChange={(e) => {
                           formik.setFieldValue("TriageEntryMethodId", e);
                         }}
@@ -895,11 +894,10 @@ const Triage = (props) => {
                     <Col xs={24} md={5}>
                       <Select
                         name={"TriageReferPattern_ID"}
-                        className={`full requried ${
-                          formik.touched.TriageReferPattern_ID &&
+                        className={`full requried ${formik.touched.TriageReferPattern_ID &&
                           Boolean(formik.errors.TriageReferPattern_ID) &&
                           "error"
-                        }`}
+                          }`}
                         onChange={(e) => {
                           formik.setFieldValue("TriageReferPattern_ID", e);
                         }}
@@ -987,18 +985,18 @@ const Triage = (props) => {
                         className={`TriageReferFromClinicId`}
                         size={"large"}
                         placeholder={"ارجاع درمانگاه"}
-                        onChange={e=>formik.setFieldValue("TriageReferFromClinicId",e)}
+                        onChange={e => formik.setFieldValue("TriageReferFromClinicId", e)}
 
                       >
                         {information &&
-                        information.TriageReferFromClinicsDto.map((item) => (
+                          information.TriageReferFromClinicsDto.map((item) => (
                             <Select.Option
-                                key={item.TriageReferFromClinicId}
-                                value={item.TriageReferFromClinicId}
+                              key={item.TriageReferFromClinicId}
+                              value={item.TriageReferFromClinicId}
                             >
                               {item.TriageReferFromClinicName}
                             </Select.Option>
-                        ))}
+                          ))}
                       </Select>
                     </Col>
                     <Col xs={24} md={6}>
@@ -1019,7 +1017,7 @@ const Triage = (props) => {
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={12}>
                       <AutoComplete
-                        className={`${formik.touched.objDictionaryList && Boolean(formik.errors.objDictionaryList) && "error" } requried`}
+                        className={`${formik.touched.objDictionaryList && Boolean(formik.errors.objDictionaryList) && "error"} requried`}
 
                         value={complaintSelect}
                         onChange={(i) => setComplaintSelect(i)}
@@ -1129,7 +1127,7 @@ const Triage = (props) => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>سطح هوشیاری بیمار</div>
                     <div className={"grayContent"}>
-                      <Radio.Group name={"LevelConsciousness"} onChange={(e) => {setConsciousness(e.target.value);formik.setFieldValue("LevelConsciousness",e.target.value)}} value={consciousness}>
+                      <Radio.Group name={"LevelConsciousness"} onChange={(e) => { setConsciousness(e.target.value); formik.setFieldValue("LevelConsciousness", e.target.value) }} value={consciousness}>
                         <Radio value={"A"}>A</Radio>
                         <Radio value={"V"}>V</Radio>
                         <Radio value={"P"}>P</Radio>
@@ -1139,22 +1137,22 @@ const Triage = (props) => {
                   </div>
                   <Row className={"container"}>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("DangerousRespire",e.target.checked)}>مخاطره راه هوایی</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("DangerousRespire", e.target.checked)}>مخاطره راه هوایی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("RespireDistress",e.target.checked)}>دیسترس تنفسی</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("RespireDistress", e.target.checked)}>دیسترس تنفسی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("Sianosis",e.target.checked)}>سیانوز</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("Sianosis", e.target.checked)}>سیانوز</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("Shock",e.target.checked)}> علائم شوک</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("Shock", e.target.checked)}> علائم شوک</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("SPO2",e.target.checked)}>SPO</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("SPO2", e.target.checked)}>SPO</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e=>formik.setFieldValue("Intubation",e.target.checked)}>انتوباسیون</Checkbox>
+                      <Checkbox onChange={e => formik.setFieldValue("Intubation", e.target.checked)}>انتوباسیون</Checkbox>
                     </Col>
                   </Row>
                 </fieldset>
@@ -1170,7 +1168,7 @@ const Triage = (props) => {
                   <div className={"grayTitle"}>
                     <div className={"grayHead"}>شرایط</div>
                     <div className={"grayContent"}>
-                      <Radio.Group onChange={(e) => {onBindStatus(e.target.value);setStatus(e.target.value)}} value={status}>
+                      <Radio.Group onChange={(e) => { onBindStatus(e.target.value); setStatus(e.target.value) }} value={status}>
                         <Radio value={"HighDanger"}>پر خطر</Radio>
                         <Radio value={"Lethargy"}>لتاژی و خواب آلودگی</Radio>
                         <Radio value={"HighDistress"}>دیسترس شدید</Radio>
@@ -1184,23 +1182,22 @@ const Triage = (props) => {
                         <Slider
                           min={0}
                           max={10}
-                          className={`bar ${
-                            formik.touched.Pain &&
+                          className={`bar ${formik.touched.Pain &&
                             Boolean(formik.errors.Pain) &&
                             "error"
-                          }`}
+                            }`}
                           name="Pain"
-                          onChange={e=>formik.setFieldValue("Pain",e)}
+                          onChange={e => formik.setFieldValue("Pain", e)}
                         />
                         <div>
                           {formik.touched.Pain &&
-                          formik.errors.Pain && (
+                            formik.errors.Pain && (
                               <Alert
-                                  message={formik.errors.Pain}
-                                  type="error"
-                                  showIcon
+                                message={formik.errors.Pain}
+                                type="error"
+                                showIcon
                               />
-                          )}
+                            )}
                         </div>
 
                       </div>
@@ -1245,21 +1242,21 @@ const Triage = (props) => {
                     <Col xs={24} md={24}>
                       <label className={"paddingBottom"}>سابقه پزشکی</label>
                       <AutoComplete
-                          value={medicalSelect}
-                          onChange={(i) => setMedicalSelect(i)}
-                          style={{ width: "100%" }}
-                          onSelect={onSelectMedical}
-                          onSearch={onSearchMedical}
-                          onKeyPress={(e) => {
-                            if (e.charCode === 13 && medicalSelect.length > 1)
-                              onSelectMedical(medicalSelect);
-                          }}
-                          placeholder="جستجوی سابقه پزشکی"
+                        value={medicalSelect}
+                        onChange={(i) => setMedicalSelect(i)}
+                        style={{ width: "100%" }}
+                        onSelect={onSelectMedical}
+                        onSearch={onSearchMedical}
+                        onKeyPress={(e) => {
+                          if (e.charCode === 13 && medicalSelect.length > 1)
+                            onSelectMedical(medicalSelect);
+                        }}
+                        placeholder="جستجوی سابقه پزشکی"
                       >
                         {medicalOpt.map((comItem) => (
-                            <AutoComplete.Option value={JSON.stringify(comItem)}>
-                              {comItem.Name}
-                            </AutoComplete.Option>
+                          <AutoComplete.Option value={JSON.stringify(comItem)}>
+                            {comItem.Name}
+                          </AutoComplete.Option>
                         ))}
                       </AutoComplete>
                     </Col>
@@ -1310,7 +1307,7 @@ const Triage = (props) => {
                       <div className={"grayTitle"}>
                         <div className={"grayHead"}>تعداد تسهیلات</div>
                         <div className={"grayContent"}>
-                          <Radio.Group onChange={(e) => {formik.setFieldValue("ServiceCount",e.target.value);setServiceCount(e.target.value)}} value={serviceCount}>
+                          <Radio.Group onChange={(e) => { formik.setFieldValue("ServiceCount", e.target.value); setServiceCount(e.target.value) }} value={serviceCount}>
                             <Radio value={3}>سطح سوم - دو مورد یا بیشتر</Radio>
                             <Radio value={4}>سطح چهارم - یک مورد بیشتر</Radio>
                             <Radio value={5}>سطح پنجم - هیچ</Radio>
@@ -1325,11 +1322,10 @@ const Triage = (props) => {
                         placeholder={"سطح تریاژ"}
                         name="TriageLevel"
                         onChange={(e) => formik.setFieldValue("TriageLevel", e)}
-                        className={`full requried ${
-                          formik.touched.TriageLevel &&
+                        className={`full requried ${formik.touched.TriageLevel &&
                           Boolean(formik.errors.TriageLevel) &&
                           "error"
-                        }`}
+                          }`}
                       >
                         <Select.Option key={""} value={0}></Select.Option>
                         <Select.Option key={1} value={1}>
@@ -1358,9 +1354,9 @@ const Triage = (props) => {
                         )}
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={2}>
-                      <Button type={"button"} color={"green"} onClick={()=>setModalVisible(true)}>نظر پزشک</Button>
-                      <Modal onCancel={()=>setModalVisible(false)} footer={null} title={"نظر پزشک"} visible={modalVisible} on>
-                        <TextArea rows={4} name={"PractitionerComment"} onChange={formik.handleChange}/>
+                      <Button type={"button"} color={"green"} onClick={() => setModalVisible(true)}>نظر پزشک</Button>
+                      <Modal onCancel={() => setModalVisible(false)} footer={null} title={"نظر پزشک"} visible={modalVisible} on>
+                        <TextArea rows={4} name={"PractitionerComment"} onChange={formik.handleChange} />
                       </Modal>
                     </Col>
                   </Row>
@@ -1376,33 +1372,35 @@ const Triage = (props) => {
                   </legend>
                   <Row>
                     <Col xs={24} md={4}>
-                      <Button color={"red"}>نرمال</Button>
+                      <Button type="button" color={"red"} onClick={() => {
+                        setBPS(120);
+                        setBPD(80);
+                        setPR(80);
+                        setRR(14);
+                        setT(37.5)
+                        setSPO2state(94);
+                      }}>نرمال</Button>
+                      text{SPO2state}
                     </Col>
                     <Col xs={24} md={20}>
                       <Row>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"BPS"} onChange={e=>setBPS(e)}/>
+                          <Combo value={BPS} label={"BPS"} onChange={e => setBPS(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"BPD"} onChange={e=>setBPD(e)}/>
+                          <Combo value={BPD} label={"BPD"} onChange={e => setBPD(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"PR"} onChange={e=>setPR(e)}/>
+                          <Combo value={PR} label={"PR"} onChange={e => setPR(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"RR"} onChange={e=>setRR(e)}/>
+                          <Combo value={RR} label={"RR"} onChange={e => setRR(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"T"} onChange={e=>setT(e)}/>
+                          <Combo value={T} label={"T"} onChange={e => setT(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {" "}
-                          <Combo label={"SPO_2"} onChange={e=>setSPO2(e)}/>
+                          {/* <Combo value={SPO2state} label={"SPO_2"} onChange={e => setSPO2state(e)} /> */}
                         </Col>
                       </Row>
                     </Col>
@@ -1470,7 +1468,6 @@ const Triage = (props) => {
                     </Select.Option>
                     <Select.Option value={8}>بستری در بخش</Select.Option>
                   </Select>
-                  <Button>ثبت</Button>
                 </div>
               </Col>
               <Col xs={24} md={8}>
@@ -1479,11 +1476,10 @@ const Triage = (props) => {
                   placeholder={"ارجاع به"}
                   name={"LocationId"}
                   onChange={(e) => formik.setFieldValue("LocationId", e)}
-                  className={`full requried ${
-                    formik.touched.LocationId &&
+                  className={`full requried ${formik.touched.LocationId &&
                     Boolean(formik.errors.LocationId) &&
                     "error"
-                  }`}
+                    }`}
                 >
                   <Select.Option value={115114}>CPR</Select.Option>
                   <Select.Option value={115115}>درمانگاه</Select.Option>
