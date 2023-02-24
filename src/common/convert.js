@@ -1,12 +1,10 @@
 export const convertNumber = (inputNumber) => {
 
-  debugger;
-    if(isNaN(Number(inputNumber)))
-    {
-      let param=String(inputNumber);
-      if(param.length){
-        let arr = param.split("");
-        arr.forEach((item, index) => {
+  if (isNaN(Number(inputNumber))) {
+    let param = String(inputNumber);
+    if (param.length) {
+      let arr = param.split("");
+      arr.forEach((item, index) => {
         switch (item) {
           case "۱":
             arr[index] = "1";
@@ -39,20 +37,20 @@ export const convertNumber = (inputNumber) => {
             arr[index] = "0";
             break;
           default:
-            
+
             break;
         }
-        
-        });
-        return parseInt(arr.reduce((i,concat)=>i+concat))
-      }
-      else{
-        return 0;
-      }
-    }
-    else{
-      return Number(inputNumber)
 
+      });
+      return parseInt(arr.reduce((i, concat) => i + concat))
     }
+    else {
+      return 0;
+    }
+  }
+  else {
+    return Number(inputNumber)
+
+  }
 
 };
