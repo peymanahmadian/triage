@@ -66,10 +66,7 @@ const Triage = (props) => {
     IsMan: yup.boolean().required(),
     FirstName: yup.string().required("وارد کردن نام الزامیست"),
     LastName: yup.string().required("وارد کردن نام خانوادگی الزامیست"),
-    age: yup
-      .number()
-      .min(1, "وارد کردن سن بیمار الزامیست")
-      .required("وارد کردن سن بیمار الزامیست"),
+    age: yup.string().required("وارد کردن سن بیمار الزامیست"),
     Weight: yup.string(),
     EncounterReasonId: yup.string().required("علت مراجعه را مشخص نمایید"), //علت مراجعه
     TriageEntryMethodId: yup.string().required("نحوه ورود را مشخص نمایید"), //نحوه ورود
@@ -92,7 +89,7 @@ const Triage = (props) => {
       IsMan: true,
       FirstName: "",
       LastName: "",
-      age: 0,
+      age: null,
       NationalCode: "",
       IsPregnant: false,
       TriagePic_File: null,
@@ -149,7 +146,7 @@ const Triage = (props) => {
     validateOnChange: false,
 
     onSubmit: (values) => {
-      let timeNow = new Date().toISOString();
+      let timeNow = new Date().toDateString() + "T" + new Date().toLocaleTimeString()
       let param = {
         IsInitialize: false,
         BranchId: information.BranchId,
@@ -552,19 +549,54 @@ const Triage = (props) => {
     setSepration(e.target.value);
     formik.setFieldValue(e.target.value, true);
   }
-  console.log("test")
   const [BPD, setBPD] = useState(0);
   const [BPS, setBPS] = useState(0);
   const [PR, setPR] = useState(0);
   const [RR, setRR] = useState(0);
   const [SPO2state, setSPO2state] = useState(0);
   const [T, setT] = useState(0);
+  const clearForm = () => {
+    setActive(false);
+    setHiddenIsPregnant(false);
+    setEncounter("Encounter24HoursNothing");
 
+    setComplaintOpt([]);
+    setComplaintSelect([]);
+    setComplaintList([]);
+
+    setAllergyOpt([]);
+    setAllergySelect([]);
+    setAllergyList([]);
+
+    setMedicalOpt([]);
+    setMedicalSelect(null);
+    setMedicalList([]);
+
+    setMedicalNameOpt([]);
+    setMedicalNameSelect(null);
+    setMedicalNameList([]);
+
+
+    setServiceCount(null);
+    setModalVisible(false);
+    setStatus(null);
+
+    setConsciousness(null);
+    setSepration(null);
+
+    setBPD(0);
+    setBPS(0);
+    setPR(0);
+    setRR(0);
+    setSPO2state(0);
+    setT(0);
+    formik.resetForm();
+  }
   return (
     <Layout className={"layout triage"}>
       <Layout className={"body"}>
         <Layout.Sider className={"side"}>
-          <SidebarTriage onNewTriage={() => formik.resetForm()} />
+          <SidebarTriage onNewTriage={() => clearForm()} />
         </Layout.Sider>
 
         <Layout.Content className={"content"}>
@@ -637,6 +669,7 @@ const Triage = (props) => {
                       </Checkbox>
                     </Col>
                     <Col xs={12} md={3}>
+                      <label className="label">جنسیت</label>
                       <Select
                         disabled={active}
                         defaultValue={formik.values.IsMan}
@@ -647,6 +680,7 @@ const Triage = (props) => {
                         size={"large"}
                         className={"full"}
                         placeholder={"جنسیت"}
+                        value={formik.values.IsMan}
                       >
                         <Select.Option key={true} value={true}>
                           مرد
@@ -657,6 +691,8 @@ const Triage = (props) => {
                       </Select>
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">نام</label>
                       <Input
                         className={`${formik.touched.FirstName && Boolean(formik.errors.FirstName) && "error"} requried`}
                         disabled={active}
@@ -675,6 +711,8 @@ const Triage = (props) => {
                       )}
                     </Col>
                     <Col xs={24} md={7}>
+
+                      <label className="label">نام خانوادگی</label>
                       <Input
                         className={`${formik.touched.LastName && Boolean(formik.errors.LastName) && "error"} requried`}
                         disabled={active}
@@ -694,7 +732,10 @@ const Triage = (props) => {
                       )}
                     </Col>
                     <Col xs={24} md={6}>
+                      <label className="label">سن بیمار</label>
+
                       <AgeInput
+                        value={formik.values.age}
                         className={`${formik.touched.age && Boolean(formik.errors.age) && "error"} requried`}
                         onChange={(e) => formik.setFieldValue("age", e)}
                       />
@@ -709,6 +750,8 @@ const Triage = (props) => {
                   </Row>
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={5}>
+
+                      <label className="label">کد ملی</label>
                       <Input
                         size={"large"}
                         value={formik.values.NationalCode}
@@ -718,7 +761,7 @@ const Triage = (props) => {
                       />
                     </Col>
                     <Col xs={12} md={4}>
-                      <input type={"file"} onChange={e => { e.target.files.length && converToByteArray(e.target.files[0]) }} />
+                      {/* <input type={"file"} value={triage.values.TriagePic_File} onChange={e => { e.target.files.length && converToByteArray(e.target.files[0]) }} /> */}
                       {/*<Upload  accept="image/*,.jpg" maxCount={1}>*/}
                       {/*  <Button type={"button"}>*/}
                       {/*    <UploadOutlined /> تصویر بیمار*/}
@@ -726,6 +769,8 @@ const Triage = (props) => {
                       {/*</Upload>*/}
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">تلفن</label>
                       <Input
                         value={formik.values.Tel1}
                         name={"Tel1"}
@@ -735,6 +780,8 @@ const Triage = (props) => {
                       />
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">نام پدر</label>
                       <Input
                         value={formik.values.FatherName}
                         name={"FatherName"}
@@ -744,6 +791,8 @@ const Triage = (props) => {
                       />
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">وزن</label>
                       <Input
                         className={`${formik.touched.Weight && Boolean(formik.errors.Weight) && "error"} requried`}
 
@@ -765,6 +814,8 @@ const Triage = (props) => {
                   </Row>
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={5}>
+
+                      <label className="label">شغل</label>
                       <Input
                         value={formik.values.JobName}
                         name={"JobName"}
@@ -774,6 +825,8 @@ const Triage = (props) => {
                       />
                     </Col>
                     <Col xs={24} md={14}>
+
+                      <label className="label">آدرس</label>
                       <Input
                         value={formik.values.Address}
                         name={"Address"}
@@ -795,22 +848,31 @@ const Triage = (props) => {
                       </Col>
                     )}
                     <Col xs={24} md={5}>
+
+                      <label className="label">تابعیت</label>
                       <Select
                         name={"ReligionId"}
                         size={"large"}
                         className={"full"}
                         placeholder={"تابعیت"}
+                        value={formik.values.ReligionId}
                         onChange={e => formik.setFieldValue("ReligionId", e)}
                       >
                         {information &&
-                          information.ReligionsDto.map((item) => (
-                            <Select.Option
-                              value={item.ReligionId}
-                              key={item.ReligionId}
-                            >
-                              {item.ReligionName}
-                            </Select.Option>
-                          ))}
+                          <>
+                            <Select.Option value={0}>{" "}</Select.Option>
+                            {
+                              information.ReligionsDto.map((item) => (
+                                <Select.Option
+                                  value={item.ReligionId}
+                                  key={item.ReligionId}
+                                >
+                                  {item.ReligionName}
+                                </Select.Option>
+                              ))}
+
+                          </>
+                        }
                       </Select>
                     </Col>
                   </Row>
@@ -826,6 +888,8 @@ const Triage = (props) => {
                   </legend>
                   <Row gutter={[6, 4]}>
                     <Col xs={12} md={7}>
+
+                      <label className="label">علت مراجعه</label>
                       <Select
                         className={`full requried ${formik.touched.EncounterReasonId &&
                           Boolean(formik.errors.EncounterReasonId) &&
@@ -837,6 +901,7 @@ const Triage = (props) => {
                         }}
                         size={"large"}
                         placeholder={"علت مراجعه"}
+                        value={formik.values.EncounterReasonId}
                       >
                         {information &&
                           information.EncounterReasonsDto &&
@@ -859,6 +924,8 @@ const Triage = (props) => {
                         )}
                     </Col>
                     <Col xs={12} md={7}>
+
+                      <label className="label">نحوه ورود</label>
                       <Select
                         name={"TriageEntryMethodId"}
                         className={`full requried ${formik.touched.TriageEntryMethodId &&
@@ -870,6 +937,7 @@ const Triage = (props) => {
                         }}
                         size={"large"}
                         placeholder={"نحوه ورود"}
+                        value={formik.values.TriageEntryMethodId}
                       >
                         {information &&
                           information.TriageEntryMethodsDto &&
@@ -892,6 +960,8 @@ const Triage = (props) => {
                         )}
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">نحوه مراجعه</label>
                       <Select
                         name={"TriageReferPattern_ID"}
                         className={`full requried ${formik.touched.TriageReferPattern_ID &&
@@ -901,6 +971,7 @@ const Triage = (props) => {
                         onChange={(e) => {
                           formik.setFieldValue("TriageReferPattern_ID", e);
                         }}
+                        value={formik.values.TriageReferPattern_ID}
                         size={"large"}
                         placeholder={"نحوه مراجعه"}
                       >
@@ -925,6 +996,8 @@ const Triage = (props) => {
                         )}
                     </Col>
                     <Col xs={24} md={5}>
+
+                      <label className="label">کد آمبولانس</label>
                       <Input
                         value={formik.values.AmbulanceCode}
                         name={"AmbulanceCode"}
@@ -956,6 +1029,7 @@ const Triage = (props) => {
                       </div>
                     </Col>
                     <Col xs={24} md={8}>
+
                       {formik.values.Encounter24HoursOther && (
                         <Input
                           name={"Encounter24HoursOtherText"}
@@ -981,11 +1055,23 @@ const Triage = (props) => {
                   </Row>
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={6}>
+                      <label className="label">ارجاع درمانگاه</label>
+
+                    </Col>
+                    <Col xs={24} md={6}>
+                      <label className="label">از</label>
+                    </Col>
+                  </Row>
+                  <Row gutter={[6, 4]}>
+
+                    <Col xs={24} md={6}>
+
                       <Select
-                        className={`TriageReferFromClinicId`}
+                        className={`full TriageReferFromClinicId`}
                         size={"large"}
                         placeholder={"ارجاع درمانگاه"}
                         onChange={e => formik.setFieldValue("TriageReferFromClinicId", e)}
+                        value={formik.values.TriageReferFromClinicId}
 
                       >
                         {information &&
@@ -1001,7 +1087,8 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={6}>
 
-                      <Input name={"TriageReferFromText"} onChange={formik.handleChange} size={"large"} placeholder={"از"} />
+
+                      <Input value={formik.values.TriageReferFromText} name={"TriageReferFromText"} onChange={formik.handleChange} size={"large"} placeholder={"از"} />
                     </Col>
                   </Row>
                 </fieldset>
@@ -1016,6 +1103,8 @@ const Triage = (props) => {
                   </legend>
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={12}>
+
+                      <label className="label">جستجوی شکایت اصلی</label>
                       <AutoComplete
                         className={`${formik.touched.objDictionaryList && Boolean(formik.errors.objDictionaryList) && "error"} requried`}
 
@@ -1036,12 +1125,14 @@ const Triage = (props) => {
                           </AutoComplete.Option>
                         ))}
                       </AutoComplete>
+
                       <Input
                         size={"large"}
                         placeholder={"شرح"}
                         className={"marginTop"}
                         name="Note2"
                         onChange={formik.handleChange}
+                        value={formik.values.Note2}
                       />
                       {formik.touched.objDictionaryList &&
                         formik.errors.objDictionaryList && (
@@ -1054,7 +1145,7 @@ const Triage = (props) => {
                     </Col>
                     <Col xs={24} md={12}>
                       <fieldset className={"inner"}>
-                        <legend>لیست شکایات</legend>
+                        <legend className="label">لیست شکایات</legend>
                         {complaintList.map((item) => (
                           <Tag
                             key={item.Note}
@@ -1080,6 +1171,8 @@ const Triage = (props) => {
                   </legend>
                   <Row gutter={[6, 4]}>
                     <Col xs={24} md={12}>
+
+                      <label className="label">سابقه حساسیت دارویی</label>
                       <AutoComplete
                         value={allergySelect}
                         onChange={(i) => setAllergySelect(i)}
@@ -1137,22 +1230,22 @@ const Triage = (props) => {
                   </div>
                   <Row className={"container"}>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("DangerousRespire", e.target.checked)}>مخاطره راه هوایی</Checkbox>
+                      <Checkbox checked={formik.values.DangerousRespire} onChange={e => formik.setFieldValue("DangerousRespire", e.target.checked)}>مخاطره راه هوایی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("RespireDistress", e.target.checked)}>دیسترس تنفسی</Checkbox>
+                      <Checkbox checked={formik.values.RespireDistress} onChange={e => formik.setFieldValue("RespireDistress", e.target.checked)}>دیسترس تنفسی</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("Sianosis", e.target.checked)}>سیانوز</Checkbox>
+                      <Checkbox checked={formik.values.Sianosis} onChange={e => formik.setFieldValue("Sianosis", e.target.checked)}>سیانوز</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("Shock", e.target.checked)}> علائم شوک</Checkbox>
+                      <Checkbox checked={formik.values.Shock} onChange={e => formik.setFieldValue("Shock", e.target.checked)}> علائم شوک</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("SPO2", e.target.checked)}>SPO</Checkbox>
+                      <Checkbox checked={formik.values.SPO2} onChange={e => formik.setFieldValue("SPO2", e.target.checked)}>SPO</Checkbox>
                     </Col>
                     <Col xs={24} sm={12} md={4}>
-                      <Checkbox onChange={e => formik.setFieldValue("Intubation", e.target.checked)}>انتوباسیون</Checkbox>
+                      <Checkbox checked={formik.values.Intubation} onChange={e => formik.setFieldValue("Intubation", e.target.checked)}>انتوباسیون</Checkbox>
                     </Col>
                   </Row>
                 </fieldset>
@@ -1180,6 +1273,7 @@ const Triage = (props) => {
                       <div className={"toolbar"}>
                         <div className={"label"}>میزان درد</div>
                         <Slider
+                          value={formik.values.Pain}
                           min={0}
                           max={10}
                           className={`bar ${formik.touched.Pain &&
@@ -1201,12 +1295,12 @@ const Triage = (props) => {
                         </div>
 
                       </div>
-                      test
                     </Col>
                     <Col xs={24} md={12}>
                       <div className={"toolbar"}>
                         <Input
                           name={"BS"}
+                          value={formik.values.BS}
                           onChange={formik.handleChange}
                           prefix={
                             <span className={"grayText"}> میزان قند خون:</span>
@@ -1307,7 +1401,7 @@ const Triage = (props) => {
                       <div className={"grayTitle"}>
                         <div className={"grayHead"}>تعداد تسهیلات</div>
                         <div className={"grayContent"}>
-                          <Radio.Group onChange={(e) => { formik.setFieldValue("ServiceCount", e.target.value); setServiceCount(e.target.value) }} value={serviceCount}>
+                          <Radio.Group value={formik.values.ServiceCount} onChange={(e) => { formik.setFieldValue("ServiceCount", e.target.value); setServiceCount(e.target.value) }} value={serviceCount}>
                             <Radio value={3}>سطح سوم - دو مورد یا بیشتر</Radio>
                             <Radio value={4}>سطح چهارم - یک مورد بیشتر</Radio>
                             <Radio value={5}>سطح پنجم - هیچ</Radio>
@@ -1316,11 +1410,13 @@ const Triage = (props) => {
                       </div>
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={6}>
+
+                      <label className="label">سطح تریاژ</label>
                       <Select
-                        name={"x"}
                         size={"large"}
                         placeholder={"سطح تریاژ"}
                         name="TriageLevel"
+                        value={formik.values.TriageLevel}
                         onChange={(e) => formik.setFieldValue("TriageLevel", e)}
                         className={`full requried ${formik.touched.TriageLevel &&
                           Boolean(formik.errors.TriageLevel) &&
@@ -1356,7 +1452,7 @@ const Triage = (props) => {
                     <Col xs={24} sm={12} md={12} lg={2}>
                       <Button type={"button"} color={"green"} onClick={() => setModalVisible(true)}>نظر پزشک</Button>
                       <Modal onCancel={() => setModalVisible(false)} footer={null} title={"نظر پزشک"} visible={modalVisible} on>
-                        <TextArea rows={4} name={"PractitionerComment"} onChange={formik.handleChange} />
+                        <TextArea value={formik.values.PractitionerComment} rows={4} name={"PractitionerComment"} onChange={formik.handleChange} />
                       </Modal>
                     </Col>
                   </Row>
@@ -1380,7 +1476,6 @@ const Triage = (props) => {
                         setT(37.5)
                         setSPO2state(94);
                       }}>نرمال</Button>
-                      text{SPO2state}
                     </Col>
                     <Col xs={24} md={20}>
                       <Row>
@@ -1400,7 +1495,7 @@ const Triage = (props) => {
                           <Combo value={T} label={"T"} onChange={e => setT(e)} />
                         </Col>
                         <Col xs={12} md={4}>
-                          {/* <Combo value={SPO2state} label={"SPO_2"} onChange={e => setSPO2state(e)} /> */}
+                          <Combo value={SPO2state} label={"SPO_2"} onChange={e => setSPO2state(e)} />
                         </Col>
                       </Row>
                     </Col>
@@ -1437,6 +1532,7 @@ const Triage = (props) => {
                           size="large"
                           onChange={formik.handleChange}
                           name={"PatientId_HIS"}
+                          value={formik.values.PatientId_HIS}
                           prefix={
                             <span className={"grayText"}>کد بیمار در HIS:</span>
                           }
@@ -1449,32 +1545,23 @@ const Triage = (props) => {
             </Row>
             <Row gutter={[12, 6]}>
               <Col xs={24} md={8}>
-                <div className={"flexInput"}>
-                  <Select
-                    size={"large"}
-                    className={"full"}
-                    placeholder={"نحوه خروج و انصراف از درمان"}
-                    name={"EncounterReasonId"}
-                  >
-                    <Select.Option value={1}>بلاتکلیف</Select.Option>
-                    <Select.Option value={2}>
-                      تشکیل پرونده در اچ ای اس
-                    </Select.Option>
-                    <Select.Option value={4}>ارجاع به مرکز دیگر</Select.Option>
-                    <Select.Option value={5}>انصراف از درمان</Select.Option>
-                    <Select.Option value={6}>رضایت شخصی</Select.Option>
-                    <Select.Option value={7}>
-                      ترخیص با دستور دارویی
-                    </Select.Option>
-                    <Select.Option value={8}>بستری در بخش</Select.Option>
-                  </Select>
-                </div>
+
+                <label className="label">ارجاع به</label>
               </Col>
               <Col xs={24} md={8}>
+                <label className="label">نحوه خروج و انصراف از درمان</label>
+              </Col>
+              <Col xs={24} md={4}></Col>
+              <Col xs={24} md={4}></Col>
+            </Row>
+            <Row gutter={[12, 6]}>
+              <Col xs={24} md={8}>
+
                 <Select
                   size={"large"}
                   placeholder={"ارجاع به"}
                   name={"LocationId"}
+                  value={formik.values.LocationId}
                   onChange={(e) => formik.setFieldValue("LocationId", e)}
                   className={`full requried ${formik.touched.LocationId &&
                     Boolean(formik.errors.LocationId) &&
@@ -1493,6 +1580,33 @@ const Triage = (props) => {
                   />
                 )}
               </Col>
+              <Col xs={24} md={8}>
+                <div className={"flexInput"}>
+
+
+                  <Select
+                    size={"large"}
+                    className={"full"}
+                    placeholder={"نحوه خروج و انصراف از درمان"}
+                    name={"EncounterReasonId"}
+                    onChange={e => formik.setFieldValue("EncounterReasonId", e)}
+                    value={formik.values.EncounterReasonId}
+                  >
+                    <Select.Option value={1}>بلاتکلیف</Select.Option>
+                    <Select.Option value={2}>
+                      تشکیل پرونده در اچ ای اس
+                    </Select.Option>
+                    <Select.Option value={4}>ارجاع به مرکز دیگر</Select.Option>
+                    <Select.Option value={5}>انصراف از درمان</Select.Option>
+                    <Select.Option value={6}>رضایت شخصی</Select.Option>
+                    <Select.Option value={7}>
+                      ترخیص با دستور دارویی
+                    </Select.Option>
+                    <Select.Option value={8}>بستری در بخش</Select.Option>
+                  </Select>
+                </div>
+              </Col>
+
               <Col xs={24} md={4}>
                 <Input
                   size={"large"}

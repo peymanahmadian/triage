@@ -26,7 +26,6 @@ const Wrapper = () => {
             }).then(data => {
                 setPrintInfo(data.data);
             }, err => {
-                debugger;
             })
         }
 

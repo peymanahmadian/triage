@@ -74,6 +74,9 @@ const App = () => {
                                         <Route path={"/triage"} exact>
                                             <Triage />
                                         </Route>
+                                        <Route path={"/print/:id"} exact>
+                                            <Print />
+                                        </Route>
                                     </Switch>
                                 </Content>
                             </Layout>

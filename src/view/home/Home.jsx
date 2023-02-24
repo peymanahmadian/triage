@@ -10,11 +10,13 @@ import { getAllPatients } from "../../api/patients.api";
 import triage from "../../api/triage";
 import Print from "../print/print";
 import moment from "moment/moment";
+import { useHistory, useLocation } from "react-router-dom";
 
 const Home = () => {
     const dispatch = useDispatch();
     const { information } = useSelector((state) => state.Account);
     const [param, setParam] = useState(null);
+    const navigation = useHistory();
     const BranchID = information?.BranchId || null;
     //load init information
     useEffect(() => {
@@ -37,7 +39,7 @@ const Home = () => {
         }
     }, [information])
     const queryClient = useQuery({
-        queryKey: ["getPatients", param], queryFn: () => getAllPatients(param), enabled: (param !== null), staleTime: 5 * 60000, cacheTime: 5 * 60000
+        queryKey: ["getPatients", param], queryFn: () => getAllPatients(param), enabled: (param !== null), staleTime: 60 * 60000, cacheTime: 60 * 60000
     })
 
     useEffect(() => {
@@ -59,21 +61,20 @@ const Home = () => {
     const [dataSearch, setDataSearch] = useState(null);
     const [rowSelect, setRowSelect] = useState(null);
     const [printInfo, setPrintInfo] = useState(null);
-    // useEffect(() => {
-    //     if (rowSelect) {
-    //         triage.getPatientInformation({
-    //             id: rowSelect.toString(),
-    //             UserId: information.UserId.toString(),
-    //             BranchId: information.BranchId.toString(),
-    //             IsNotCompress: true
-    //         }).then(data => {
-    //             setPrintInfo(data.data);
-    //         }, err => {
-    //             debugger;
-    //         })
-    //     }
+    useEffect(() => {
+        if (rowSelect) {
+            triage.getPatientInformation({
+                id: rowSelect.toString(),
+                UserId: information.UserId.toString(),
+                BranchId: information.BranchId.toString(),
+                IsNotCompress: true
+            }).then(data => {
+                setPrintInfo(data.data);
+            }, err => {
+            })
+        }
 
-    // }, [rowSelect]);
+    }, [rowSelect]);
 
 
 
@@ -82,24 +83,24 @@ const Home = () => {
     return <>
         <div>
             {
-                // printInfo ? 
-                //     <Print data={printInfo} onClose={()=>setPrintInfo(null)}/>
-                //     :
-                <>
-                    <Row>
-                        <Col xs={24}>
-                            <FilterBox onSearch={(e) => { setParam(e) }} />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col xs={24}>
-                            {
-                                queryClient.isSuccess && <TableShow onPrint={(id) => { setRowSelect(id) }} data={dataSearch} />
-                            }
+                printInfo ?
+                    <Print data={printInfo} onClose={() => setPrintInfo(null)} />
+                    :
+                    <>
+                        <Row>
+                            <Col xs={24}>
+                                <FilterBox onSearch={(e) => { setParam(e) }} />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={24}>
+                                {
+                                    queryClient.isSuccess && <TableShow onPrint={(id) => { navigation.push(`print/${id}`) }} data={dataSearch} />
+                                }
 
-                        </Col>
-                    </Row>
-                </>
+                            </Col>
+                        </Row>
+                    </>
             }
 
         </div>
