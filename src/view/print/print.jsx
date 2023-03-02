@@ -17,7 +17,33 @@ const Print = (props) => {
   const [data, setData] = useState(null);
   const history = useHistory();
   useEffect(() => {
-    if (params.id) {
+    debugger;
+    if (params.id === "0") {
+      setData({
+        "TriageId": 0, "txtTriage_Code": "0", "txtFirstName": "", "txtLastName": "",
+        "txtFullName": "", "txtAge": "", "txtTriageEntryMethod": "", "txtTriageReferFromClinic": "",
+        "txtTriageReferFrom": "", "txtBS": "0", "txtNationalCode": "", "txtNote2": "", "txtTel1": "",
+        "txtEncounterReasonName": "", "chkIntubation": false, "rbtnMan": false, "rbtnWoman": false, "rbtnIsPregnant1": false,
+        "rbtnIsPregnant2": false, "rbtnTriageReferPatternWithAmbulans115": false, "rbtnTriageReferPatternWithAmbulans": false,
+        "rbtnTriageReferPatternWithCar": false, "rbtnTriageReferPatternWithHelicopter": false, "rbtnTriageReferPatternWithOther": false,
+        "rbtnIsAccidentYes": false, "rbtnIsAllergyYes": false, "rbtnIsAllergyNo": false, "rbtnIsRefer24HoursAgo": false,
+        "chkIsRefer3MonthsAgo": false, "rbtnLevelConsciousnessU": false, "rbtnLevelConsciousnessP": false, "rbtnLevelConsciousnessV": false,
+        "rbtnLevelConsciousnessA": false, "chkRespireDistress": false, "chkDangerousRespire": false, "chkSianosis": false, "chkShock": false,
+        "chkHighDanger": false, "chkLethargy": false, "chkHighDistress": false, "rbtnServiceCount0": false, "rbtnServiceCount1": false,
+        "rbtnServiceCount2": false, "rbtnTriageLevel1": false, "rbtnTriageLevel2": false, "rbtnTriageLevel3": false, "rbtnTriageLevel4": false,
+        "rbtnTriageLevel5": false, "txtDrugHistory": "", "txtLocationName": "", "LocationTypeSepasName": null, "txtTriageLevel": 0,
+        "txtTriageDate": "", "txtTriageTime": "", "txtTriageDateStart": "", "txtTriageTimeStart": "", "txtReferToDate": "", "txtReferToTime": "",
+        "txtUserNameCreate": "", "txtUserName": "", "txtDateCurrent": "", "txtTimeCurrent": "", "TriagePic_File": null, "CenterInfoPic": null, "txtT": "", "txtSPO2": "", "txtRR": "",
+        "txtPR": "", "txtBPS": "", "txtBPD": "", "txtMainDisease": "", "txtAllergyText": "", "txtMedicalHistory": "", "txtDrugAllergy": "",
+        "txtCenterName": "", "txtDescriptionCenter": "", "IsSeizure": false, "IsTrauma": false, "VaginalBleeding": false, "ImpendingDelivery": false,
+        "SevereHeadache": false, "BlurredVision": false, "EpigastricPain": false, "BabyCordProblem": false, "NoMovement25Week": false, "UterineContractions": false, "HighFever29": false, "WaterRupture": false,
+        "SevereVomiting24Week": false, "ReduceFetalMovement25Week": false, "VaginalBleedingMild": false, "FetalHeartFailure": false, "SevereUterineContractionsMothers": false, "AmbulanceCode": null,
+        "FatherName": "", "ReligionName": "", "Address": "", "JobName": "", "TriageReferFromText": "", "Encounter24HoursNothing": false, "Encounter24HoursThis": false, "Encounter24HoursOther": false,
+        "Encounter24HoursOtherText": "", "Pain": null, "QuarantineNoNeed": false, "QuarantineContact": false, "QuarantineDrop": false, "QuarantineRespiratory": false, "PatientId_HIS": null,
+        "txtBirthDateShamsi": "", "chkSPO2": false, "AdditionalInfoText": "", "txtWeight": null, "PractitionerComment": ""
+      })
+    }
+    else if (params.id) {
       triage.getPatientInformation({
         id: params.id,
         UserId: information.UserId.toString(),

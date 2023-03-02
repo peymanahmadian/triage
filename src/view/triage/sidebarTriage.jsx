@@ -37,8 +37,8 @@ const SidebarTriage = (props) => {
                     <Button block className={"marginBottom"}> EMS </Button>
                 </div>
                 <div className={"report paddingUp"}>
-                    <Button block className={"marginBottom"}>چاپ سریع</Button>
-                    <Button block className={"marginBottom"}>پیش نمایش</Button>
+                    <Button block className={"marginBottom"} onClick={() => { history.push("/print/0") }}>چاپ سریع</Button>
+                    <Button block className={"marginBottom"} onClick={() => { history.push("/print/0") }}>پیش نمایش</Button>
                 </div>
                 <div className={"report paddingUp"}>
                     <Button color={"red"} block className={"marginBottom"} onClick={() => { history.push("/") }}>بستن</Button>
